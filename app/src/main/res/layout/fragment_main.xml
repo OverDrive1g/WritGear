@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.tnn_inc.writgear.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:context="com.tnn_inc.writgear.view.WringGearApplication"
+    tools:showIn="@layout/activity">
 
     <TextView
         android:layout_width="wrap_content"
