@@ -13,6 +13,8 @@ import com.squareup.leakcanary.LeakCanary;
 import com.tnn_inc.writgear.R;
 import com.tnn_inc.writgear.view.fragment.MainFragment;
 
+import butterknife.ButterKnife;
+
 public class WringGearApplication extends AppCompatActivity implements ActivityCallback{
 
     private static String TAG = "MainWringGearApplication";
@@ -30,6 +32,7 @@ public class WringGearApplication extends AppCompatActivity implements ActivityC
         }
         LeakCanary.install(this.getApplication());
 
+        ButterKnife.bind(this);
         setContentView(R.layout.activity);
 
         Toolbar toolbar = findViewById(R.id.toolbar);

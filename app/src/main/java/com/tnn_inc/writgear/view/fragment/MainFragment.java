@@ -2,29 +2,41 @@ package com.tnn_inc.writgear.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.tnn_inc.writgear.R;
 import com.tnn_inc.writgear.presenter.BasePresenter;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class MainFragment extends BaseFragment implements MainView {
 
     private static String TAG = "MainFragment";
-    FloatingActionButton fab;
+
+    @BindView(R.id.text1)
+    TextView textView;
+
+    @BindView(R.id.button1)
+    Button button;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, null);
+        ButterKnife.bind(this, view);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                makeToast("Тык!");
+            }
+        });
         return view;
     }
 
