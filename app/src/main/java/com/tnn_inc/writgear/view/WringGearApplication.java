@@ -5,9 +5,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.squareup.leakcanary.LeakCanary;
 import com.tnn_inc.writgear.R;
@@ -20,6 +24,7 @@ public class WringGearApplication extends AppCompatActivity implements ActivityC
     private static String TAG = "MainWringGearApplication";
 
     private FragmentManager fragmentManager;
+    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,10 +38,14 @@ public class WringGearApplication extends AppCompatActivity implements ActivityC
         LeakCanary.install(this.getApplication());
 
         ButterKnife.bind(this);
-        setContentView(R.layout.activity);
+        setContentView(R.layout.main_activity);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
         setSupportActionBar(toolbar);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
         fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentByTag(TAG);
@@ -49,6 +58,16 @@ public class WringGearApplication extends AppCompatActivity implements ActivityC
         // Inflate the menu; this adds items to the action bar if it is present.
         getActivity().getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void replaceFragment(Fragment fragment, boolean addBackStack) {
