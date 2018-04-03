@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.tnn_inc.writgear.view.WringGearApplication">
+    android:layout_height="match_parent">
 
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        style="@style/AppCompat.Elevation">
 
-        <ListView
-            android:id="@+id/note_list"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/note_recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:padding="@dimen/default_spacing_small"
+            android:layoutAnimation="@anim/layout_animation_fall_down"/>
     </FrameLayout>
 
     <android.support.design.widget.FloatingActionButton
