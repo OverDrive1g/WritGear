@@ -4,19 +4,22 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.tnn_inc.writgear.R;
+import com.tnn_inc.writgear.model.dto.Note;
 import com.tnn_inc.writgear.presenter.BasePresenter;
 import com.tnn_inc.writgear.view.ActivityCallback;
+import com.tnn_inc.writgear.view.adapters.NoteListAdapter;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +31,11 @@ public class MainFragment extends BaseFragment implements MainView {
 
     @BindView(R.id.fab)
     FloatingActionButton fab;
+
+    @BindView(R.id.note_list)
+    ListView noteList;
+
+    NoteListAdapter noteListAdapter;
 
     @Override
     public void onAttach(Activity activity) {
@@ -47,7 +55,14 @@ public class MainFragment extends BaseFragment implements MainView {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, null);
         ButterKnife.bind(this, view);
+
         activityCallback.setFragmentName("MainFragment");
+
+        List<Note> noteList = getNotes();
+
+        noteListAdapter = new NoteListAdapter(getContext(), noteList);
+
+        this.noteList.setAdapter(noteListAdapter);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +71,16 @@ public class MainFragment extends BaseFragment implements MainView {
             }
         });
         return view;
+    }
+
+    List<Note> getNotes(){
+        List<Note> result = new ArrayList<>();
+        result.add(new Note(1, "Заметка 1", "текст заметки адин два три четыре чепырка", new Date()));
+        result.add(new Note(2, "Заметка 2", "текст заметки адин два три четыре чепырка", new Date()));
+        result.add(new Note(3, "Заметка 3", "текст заметки адин два три четыре чепырка", new Date()));
+        result.add(new Note(4, "Заметка 4", "текст заметки адин два три четыре чепырка", new Date()));
+        result.add(new Note(5, "Заметка 5", "текст заметки адин два три четыре чепырка", new Date()));
+        return result;
     }
 
     @Override

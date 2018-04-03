@@ -10,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -18,11 +17,6 @@ import com.squareup.leakcanary.LeakCanary;
 import com.tnn_inc.writgear.R;
 import com.tnn_inc.writgear.view.fragment.CreateNoteFragment;
 import com.tnn_inc.writgear.view.fragment.MainFragment;
-
-import java.util.Objects;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class WringGearApplication extends AppCompatActivity implements ActivityCallback{
 
