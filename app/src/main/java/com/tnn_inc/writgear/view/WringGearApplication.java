@@ -23,7 +23,7 @@ public class WringGearApplication extends AppCompatActivity implements ActivityC
     private static String TAG = "MainWringGearApplication";
 
     private FragmentManager fragmentManager;
-    private DrawerLayout mDrawerLayout;
+    private DrawerLayout drawerLayout;
     private String fragment = "";
 
     @Override
@@ -38,8 +38,16 @@ public class WringGearApplication extends AppCompatActivity implements ActivityC
         LeakCanary.install(this.getApplication());
 
         setContentView(R.layout.main_activity);
-        mDrawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout = findViewById(R.id.drawer_layout);
 
+
+        fragmentManager = getSupportFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentByTag(TAG);
+
+        if (fragment == null) replaceFragment(new MainFragment(), false);
+    }
+
+    private void createToolBar(){
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -47,11 +55,6 @@ public class WringGearApplication extends AppCompatActivity implements ActivityC
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setDisplayShowTitleEnabled(false);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
-
-        fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentByTag(TAG);
-
-        if (fragment == null) replaceFragment(new MainFragment(), false);
     }
 
     @Override
@@ -65,7 +68,7 @@ public class WringGearApplication extends AppCompatActivity implements ActivityC
         switch (item.getItemId()) {
             case android.R.id.home:
                 if(this.fragment.equals("MainFragment"))
-                    mDrawerLayout.openDrawer(GravityCompat.START);
+                    drawerLayout.openDrawer(GravityCompat.START);
                 else onBackPressed();
                 return true;
         }
@@ -99,6 +102,5 @@ public class WringGearApplication extends AppCompatActivity implements ActivityC
             actionbar.setHomeAsUpIndicator(R.drawable.ic_back);
 
     }
-
 
 }
