@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.tnn_inc.writgear.R;
-import com.tnn_inc.writgear.model.dto.Note;
+import com.tnn_inc.writgear.model.database.entities.Note;
 
 import java.util.List;
 

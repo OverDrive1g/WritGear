@@ -40,6 +40,7 @@ public class WringGearApplication extends AppCompatActivity implements ActivityC
         setContentView(R.layout.main_activity);
         drawerLayout = findViewById(R.id.drawer_layout);
 
+        createToolBar();
 
         fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentByTag(TAG);

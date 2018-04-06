@@ -14,13 +14,20 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
+import com.pushtorefresh.storio3.sqlite.StorIOSQLite;
+import com.pushtorefresh.storio3.sqlite.impl.DefaultStorIOSQLite;
+import com.pushtorefresh.storio3.sqlite.queries.Query;
 import com.tnn_inc.writgear.R;
-import com.tnn_inc.writgear.model.dto.Note;
+import com.tnn_inc.writgear.model.database.DbOpenHelper;
+import com.tnn_inc.writgear.model.database.entities.Note;
+import com.tnn_inc.writgear.model.database.entities.NoteSQLiteTypeMapping;
+import com.tnn_inc.writgear.model.database.tables.NotesTable;
 import com.tnn_inc.writgear.presenter.BasePresenter;
 import com.tnn_inc.writgear.view.ActivityCallback;
 import com.tnn_inc.writgear.view.adapters.NoteItemAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -76,7 +83,7 @@ public class MainFragment extends BaseFragment implements MainView {
         ItemTouchHelper itemTouchhelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
             @Override
             public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-                return makeMovementFlags(0, LEFT | RIGHT);
+                return makeMovementFlags(0, LEFT);
             }
 
             @Override
@@ -101,11 +108,17 @@ public class MainFragment extends BaseFragment implements MainView {
     }
 
     List<Note> getNotes(){
-        List<Note> result = new ArrayList<>();
-        for (int i = 0; i < 40; i++) {
-            result.add(new Note(i, "Заметка "+i, "текст заметки адин два три четыре чепырка", new Date()));
-        }
-        return result;
+        StorIOSQLite storIOSQLite = DefaultStorIOSQLite.builder()
+                .sqliteOpenHelper(new DbOpenHelper(getContext()))
+                .addTypeMapping(Note.class, new NoteSQLiteTypeMapping())
+                .build();
+
+        return storIOSQLite
+                .get()
+                .listOfObjects(Note.class)
+                .withQuery(NotesTable.QUERY_ALL)
+                .prepare()
+                .executeAsBlocking();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.tnn_inc.writgear.model.db.tables;
+package com.tnn_inc.writgear.model.database.tables;
 
 import android.support.annotation.NonNull;
 
@@ -6,12 +6,12 @@ import com.pushtorefresh.storio3.sqlite.queries.Query;
 
 public class NotesTable {
     @NonNull
-    public static final String TABLE = "tweets";
+    public static final String TABLE = "notes";
 
     @NonNull
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_TITLE = "title";
-    public static final String COLUMN_TEXT = "text";
+    public static final String COLUMN_TEXT = "_text";
     public static final String COLUMN_GROUP_ID = "group_id";
     public static final String COLUMN_CREATE_DATA = "create_data";
 
@@ -27,11 +27,11 @@ public class NotesTable {
     @NonNull
     public static String getCreateTableQuery() {
         return "CREATE TABLE " + TABLE + "("
-                + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+                + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_TITLE + " VARCHAR (255) COLLATE NOCASE, "
                 + COLUMN_TEXT + " TEXT COLLATE NOCASE,"
                 + COLUMN_GROUP_ID + " INTEGER REFERENCES groups (id),"
-                + COLUMN_CREATE_DATA + " DATETIME NOT NULL"
+                + COLUMN_CREATE_DATA + " VARCHAR (20) NOT NULL"
                 + ");";
     }
 }

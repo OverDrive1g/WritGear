@@ -1,14 +1,12 @@
-package com.tnn_inc.writgear.model.db.entities;
+package com.tnn_inc.writgear.model.database.entities;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.pushtorefresh.storio3.sqlite.annotations.StorIOSQLiteColumn;
 import com.pushtorefresh.storio3.sqlite.annotations.StorIOSQLiteCreator;
 import com.pushtorefresh.storio3.sqlite.annotations.StorIOSQLiteType;
-import com.tnn_inc.writgear.model.db.tables.NotesTable;
-
-import org.jetbrains.annotations.NotNull;
-
+import com.tnn_inc.writgear.model.database.tables.NotesTable;
 
 @StorIOSQLiteType(table = NotesTable.TABLE, generateTableClass = false)
 public class Note {
@@ -25,19 +23,19 @@ public class Note {
     @StorIOSQLiteColumn(name = NotesTable.COLUMN_TEXT)
     private String text;
 
-    @NotNull
-    @StorIOSQLiteColumn(name = NotesTable.COLUMN_GROUP_ID)
+    @NonNull
+    @StorIOSQLiteColumn(name = NotesTable.COLUMN_CREATE_DATA)
     private String createDate;
 
     @Nullable
-    @StorIOSQLiteColumn(name = NotesTable.COLUMN_CREATE_DATA)
+    @StorIOSQLiteColumn(name = NotesTable.COLUMN_GROUP_ID)
     private Integer groupId;
 
     private Note() {
     }
 
     public Note(@Nullable Integer id, @Nullable String title, @Nullable String text,
-                @NotNull String createDate, @Nullable Integer groupId) {
+                @NonNull String createDate, @Nullable Integer groupId) {
         this.id = id;
         this.title = title;
         this.text = text;
@@ -60,7 +58,7 @@ public class Note {
         return text;
     }
 
-    @NotNull
+    @NonNull
     public String getCreateDate() {
         return createDate;
     }
@@ -72,7 +70,7 @@ public class Note {
 
     @StorIOSQLiteCreator
     static Note create(@Nullable Integer id, @Nullable String title, @Nullable String text,
-                       @NotNull String createDate, @Nullable Integer groupId) {
+                       @NonNull String createDate, @Nullable Integer groupId) {
         return new Note(id, title, text, createDate, groupId);
     }
 
@@ -109,3 +107,4 @@ public class Note {
                 '}';
     }
 }
+
