@@ -9,5 +9,6 @@ import io.reactivex.Flowable;
 public interface Model {
     List<Note> getNoteList();
     Flowable<List<Note>> getNoteListRX();
+    // TODO: 09.04.2018 добавление в базу данных
 
 }

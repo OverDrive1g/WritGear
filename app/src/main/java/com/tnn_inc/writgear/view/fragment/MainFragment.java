@@ -2,6 +2,7 @@ package com.tnn_inc.writgear.view.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +26,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 import static android.support.v7.widget.helper.ItemTouchHelper.LEFT;
 
@@ -43,6 +46,14 @@ public class MainFragment extends BaseFragment implements MainView {
 
     NoteItemAdapter noteItemAdapter;
 
+    @NonNull
+    private final CompositeDisposable compositeDisposableForOnStop = new CompositeDisposable();
+
+    @Override
+    public void onStop() {
+        compositeDisposableForOnStop.clear();
+        super.onStop();
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -55,7 +66,6 @@ public class MainFragment extends BaseFragment implements MainView {
                     + " must implement activityCallback");
         }
     }
-
 
     @Nullable
     @Override
@@ -121,8 +131,13 @@ public class MainFragment extends BaseFragment implements MainView {
     }
 
     @Override
+    public void disposeOnStop(@NonNull Disposable disposable) {
+        compositeDisposableForOnStop.add(disposable);
+    }
+
+    @Override
     protected BasePresenter getPresenter() {
-        return null;
+        return presenter;
     }
 
     @Override

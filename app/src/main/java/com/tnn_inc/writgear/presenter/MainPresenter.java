@@ -32,13 +32,19 @@ public class MainPresenter extends BasePresenter {
 
     public void onCreate(Bundle savedInstanceState) {
 
-        model.getNoteListRX()
+        final Disposable disposable = model.getNoteListRX()
                 .subscribe(new Consumer<List<Note>>() {
                     @Override
                     public void accept(List<Note> notes) throws Exception {
                         view.showData(notes);
                     }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        view.showError(throwable.getMessage());
+                    }
                 });
+//        view
 
     }
 
