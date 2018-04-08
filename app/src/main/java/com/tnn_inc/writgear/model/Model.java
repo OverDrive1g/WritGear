@@ -8,5 +8,6 @@ import io.reactivex.Flowable;
 
 public interface Model {
     List<Note> getNoteList();
+    Flowable<List<Note>> getNoteListRX();
 
 }

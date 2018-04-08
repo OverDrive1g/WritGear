@@ -35,4 +35,15 @@ public class ModelImpl implements Model {
                 .prepare()
                 .executeAsBlocking();
     }
+
+    @Override
+    public Flowable<List<Note>> getNoteListRX() {
+        return storIOSQLite
+                .get()
+                .listOfObjects(Note.class)
+                .withQuery(NotesTable.QUERY_ALL)
+                .prepare()
+                .asRxFlowable(BackpressureStrategy.LATEST)
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }
