@@ -14,28 +14,19 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
-import com.pushtorefresh.storio3.sqlite.StorIOSQLite;
-import com.pushtorefresh.storio3.sqlite.impl.DefaultStorIOSQLite;
-import com.pushtorefresh.storio3.sqlite.queries.Query;
 import com.tnn_inc.writgear.R;
-import com.tnn_inc.writgear.model.database.DbOpenHelper;
 import com.tnn_inc.writgear.model.database.entities.Note;
-import com.tnn_inc.writgear.model.database.entities.NoteSQLiteTypeMapping;
-import com.tnn_inc.writgear.model.database.tables.NotesTable;
 import com.tnn_inc.writgear.presenter.BasePresenter;
+import com.tnn_inc.writgear.presenter.MainPresenter;
 import com.tnn_inc.writgear.view.ActivityCallback;
 import com.tnn_inc.writgear.view.adapters.NoteItemAdapter;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static android.support.v7.widget.helper.ItemTouchHelper.LEFT;
-import static android.support.v7.widget.helper.ItemTouchHelper.RIGHT;
 
 
 public class MainFragment extends BaseFragment implements MainView {
@@ -48,7 +39,10 @@ public class MainFragment extends BaseFragment implements MainView {
     @BindView(R.id.note_recycler)
     RecyclerView recyclerView;
 
+    MainPresenter presenter;
+
     NoteItemAdapter noteItemAdapter;
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -71,12 +65,8 @@ public class MainFragment extends BaseFragment implements MainView {
 
         activityCallback.setFragmentName("MainFragment");
 
-        List<Note> noteList = getNotes();
-
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(llm);
-        noteItemAdapter = new NoteItemAdapter(noteList);
-        recyclerView.setAdapter(noteItemAdapter);
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_animation_fall_down);
         recyclerView.setLayoutAnimation(animation);
 
@@ -104,21 +94,10 @@ public class MainFragment extends BaseFragment implements MainView {
                 activityCallback.startCreateNote();
             }
         });
+
+        presenter = new MainPresenter(this);
+        presenter.onCreate(savedInstanceState);
         return view;
-    }
-
-    List<Note> getNotes(){
-        StorIOSQLite storIOSQLite = DefaultStorIOSQLite.builder()
-                .sqliteOpenHelper(new DbOpenHelper(getContext()))
-                .addTypeMapping(Note.class, new NoteSQLiteTypeMapping())
-                .build();
-
-        return storIOSQLite
-                .get()
-                .listOfObjects(Note.class)
-                .withQuery(NotesTable.QUERY_ALL)
-                .prepare()
-                .executeAsBlocking();
     }
 
     @Override
@@ -144,5 +123,17 @@ public class MainFragment extends BaseFragment implements MainView {
     @Override
     protected BasePresenter getPresenter() {
         return null;
+    }
+
+    @Override
+    public void showData(List<Note> noteList) {
+        noteItemAdapter = new NoteItemAdapter(noteList);
+        recyclerView.setAdapter(noteItemAdapter);
+
+    }
+
+    @Override
+    public void showEmptyList() {
+        showError("База пуста");
     }
 }

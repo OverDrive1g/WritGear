@@ -3,8 +3,6 @@ package com.tnn_inc.writgear.view.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.GravityCompat;
-import android.util.Log;
 import android.view.*;
 import android.view.View;
 import android.widget.EditText;
@@ -17,10 +15,6 @@ import com.tnn_inc.writgear.model.database.entities.Note;
 import com.tnn_inc.writgear.model.database.entities.NoteSQLiteTypeMapping;
 import com.tnn_inc.writgear.presenter.BasePresenter;
 import com.tnn_inc.writgear.view.ActivityCallback;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
