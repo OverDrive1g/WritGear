@@ -23,7 +23,7 @@ public class MainPresenter extends BasePresenter {
 
     private List<Note> noteList;
 
-    private Model model;
+    public Model model;
 
     public MainPresenter(MainView view) {
         this.view = view;

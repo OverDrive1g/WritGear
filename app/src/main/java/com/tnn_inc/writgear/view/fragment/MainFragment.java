@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -80,6 +81,7 @@ public class MainFragment extends BaseFragment implements MainView {
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_animation_fall_down);
         recyclerView.setLayoutAnimation(animation);
 
+
         ItemTouchHelper itemTouchhelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
             @Override
             public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
@@ -93,7 +95,10 @@ public class MainFragment extends BaseFragment implements MainView {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-
+                Note note = noteItemAdapter.getNoteByPosition(viewHolder.getAdapterPosition());
+                presenter.model.deleteNoteById(note.getId()).subscribe();
+                noteItemAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                noteItemAdapter.notifyItemRangeChanged(viewHolder.getAdapterPosition(), noteItemAdapter.list.size());
             }
         });
         itemTouchhelper.attachToRecyclerView(recyclerView);

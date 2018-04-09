@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.pushtorefresh.storio3.sqlite.StorIOSQLite;
 import com.pushtorefresh.storio3.sqlite.impl.DefaultStorIOSQLite;
+import com.pushtorefresh.storio3.sqlite.queries.DeleteQuery;
 import com.tnn_inc.writgear.model.database.DbOpenHelper;
 import com.tnn_inc.writgear.model.database.entities.Note;
 import com.tnn_inc.writgear.model.database.entities.NoteSQLiteTypeMapping;
@@ -12,6 +13,7 @@ import com.tnn_inc.writgear.model.database.tables.NotesTable;
 import java.util.List;
 
 import io.reactivex.BackpressureStrategy;
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
@@ -44,6 +46,20 @@ public class ModelImpl implements Model {
                 .withQuery(NotesTable.QUERY_ALL)
                 .prepare()
                 .asRxFlowable(BackpressureStrategy.LATEST)
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Completable deleteNoteById(int id) {
+        return storIOSQLite
+                .delete()
+                .byQuery(DeleteQuery.builder()
+                .table(NotesTable.TABLE)
+                .where(NotesTable.COLUMN_ID + " = ?")
+                .whereArgs(id)
+                .build())
+                .prepare()
+                .asRxCompletable()
                 .observeOn(AndroidSchedulers.mainThread());
     }
 }
