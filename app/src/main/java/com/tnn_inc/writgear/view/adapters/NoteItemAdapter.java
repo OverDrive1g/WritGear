@@ -31,12 +31,9 @@ public class NoteItemAdapter extends RecyclerView.Adapter<NoteItemAdapter.ViewHo
         final Note note = list.get(position);
         holder.text.setText(note.getTitle());
         holder.time.setText("10 сек");
-        holder.text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO: 08.04.2018 открытие в новом view
-                Log.d("NoteItemAdapter", "onClick: "+ note.getTitle());
-            }
+        holder.text.setOnClickListener(view -> {
+            // TODO: 08.04.2018 открытие в новом view
+            Log.d("NoteItemAdapter", "onClick: "+ note.getTitle());
         });
     }
 

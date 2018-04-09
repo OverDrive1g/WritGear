@@ -98,12 +98,7 @@ public class MainFragment extends BaseFragment implements MainView {
         });
         itemTouchhelper.attachToRecyclerView(recyclerView);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                activityCallback.startCreateNote();
-            }
-        });
+        fab.setOnClickListener(view1 -> activityCallback.startCreateNote());
 
         presenter = new MainPresenter(this);
         presenter.onCreate(savedInstanceState);
