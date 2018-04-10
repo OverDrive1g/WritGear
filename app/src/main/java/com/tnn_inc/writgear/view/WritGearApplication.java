@@ -16,9 +16,9 @@ import android.view.MenuItem;
 import com.squareup.leakcanary.LeakCanary;
 import com.tnn_inc.writgear.R;
 import com.tnn_inc.writgear.view.fragment.CreateNoteFragment;
-import com.tnn_inc.writgear.view.fragment.MainFragment;
+import com.tnn_inc.writgear.view.fragment.NoteListFragment;
 
-public class WringGearApplication extends AppCompatActivity implements ActivityCallback{
+public class WritGearApplication extends AppCompatActivity implements ActivityCallback{
 
     private static String TAG = "MainWringGearApplication";
 
@@ -45,7 +45,7 @@ public class WringGearApplication extends AppCompatActivity implements ActivityC
         fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentByTag(TAG);
 
-        if (fragment == null) replaceFragment(new MainFragment(), false);
+        if (fragment == null) replaceFragment(new NoteListFragment(), false);
     }
 
     private void createToolBar(){
@@ -68,7 +68,7 @@ public class WringGearApplication extends AppCompatActivity implements ActivityC
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if(this.fragment.equals("MainFragment"))
+                if(this.fragment.equals("NoteListFragment"))
                     drawerLayout.openDrawer(GravityCompat.START);
                 else onBackPressed();
                 return true;
@@ -97,7 +97,7 @@ public class WringGearApplication extends AppCompatActivity implements ActivityC
     public void setFragmentName(String fragmentName) {
         ActionBar actionbar = getSupportActionBar();
         this.fragment = fragmentName;
-        if (fragmentName.equals("MainFragment"))
+        if (fragmentName.equals("NoteListFragment"))
             actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
         else
             actionbar.setHomeAsUpIndicator(R.drawable.ic_back);

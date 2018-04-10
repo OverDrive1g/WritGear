@@ -8,8 +8,7 @@ import io.reactivex.Completable;
 import io.reactivex.Flowable;
 
 public interface Model {
-    List<Note> getNoteList();
-    Flowable<List<Note>> getNoteListRX();
+    Flowable<List<Note>> getNoteList();
     Completable deleteNoteById(int id);
-    // TODO: 09.04.2018 добавление в базу данных
+    Completable putNote(Note note);
 }

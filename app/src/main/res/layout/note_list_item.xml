@@ -37,9 +37,10 @@
                     android:layout_alignEnd="@+id/icon"
                     android:layout_alignTop="@+id/icon"
                     android:layout_margin="1dp"
-                    android:gravity="top|center"
+                    android:gravity="center"
                     android:textColor="#FFF"
-                    android:textSize="50sp" />
+                    android:textSize="50sp"
+                    android:maxLength="2"/>
 
             </RelativeLayout>
 

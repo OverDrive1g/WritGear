@@ -15,6 +15,7 @@ import com.tnn_inc.writgear.model.database.DbOpenHelper;
 import com.tnn_inc.writgear.model.database.entities.Note;
 import com.tnn_inc.writgear.model.database.entities.NoteSQLiteTypeMapping;
 import com.tnn_inc.writgear.presenter.BasePresenter;
+import com.tnn_inc.writgear.presenter.CreateNotePresenter;
 import com.tnn_inc.writgear.view.ActivityCallback;
 
 import butterknife.BindView;
@@ -22,7 +23,7 @@ import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 
 public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
-
+    CreateNotePresenter presenter;
     @BindView(R.id.note_text)
     EditText mainEditText;
 
@@ -51,23 +52,14 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
         View view = inflater.inflate(R.layout.create_note_fragment, null);
 
         ButterKnife.bind(this, view);
+        presenter = new CreateNotePresenter(this);
         activityCallback.setFragmentName("CreateNoteFragment");
         return view;
     }
 
     @Override
     public void onStop() {
-        StorIOSQLite storIOSQLite = DefaultStorIOSQLite.builder()
-                .sqliteOpenHelper(new DbOpenHelper(getContext()))
-                .addTypeMapping(Note.class, new NoteSQLiteTypeMapping())
-                .build();
-
-        storIOSQLite
-                .put()
-                .object(new Note(null, getTitle(), getText(), String.valueOf(System.currentTimeMillis()), null))
-                .prepare()
-                .executeAsBlocking();
-
+        presenter.createNote();
         super.onStop();
     }
 

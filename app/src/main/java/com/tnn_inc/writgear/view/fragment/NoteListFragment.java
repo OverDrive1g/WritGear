@@ -8,7 +8,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +18,7 @@ import android.view.animation.LayoutAnimationController;
 import com.tnn_inc.writgear.R;
 import com.tnn_inc.writgear.model.database.entities.Note;
 import com.tnn_inc.writgear.presenter.BasePresenter;
-import com.tnn_inc.writgear.presenter.MainPresenter;
+import com.tnn_inc.writgear.presenter.NoteListPresenter;
 import com.tnn_inc.writgear.view.ActivityCallback;
 import com.tnn_inc.writgear.view.adapters.NoteItemAdapter;
 
@@ -33,17 +32,14 @@ import io.reactivex.disposables.Disposable;
 import static android.support.v7.widget.helper.ItemTouchHelper.LEFT;
 
 
-public class MainFragment extends BaseFragment implements MainView {
-
-    private static String TAG = "MainFragment";
-
+public class NoteListFragment extends BaseFragment implements NoteListView {
     @BindView(R.id.fab)
     FloatingActionButton fab;
 
     @BindView(R.id.note_recycler)
     RecyclerView recyclerView;
 
-    MainPresenter presenter;
+    NoteListPresenter presenter;
 
     NoteItemAdapter noteItemAdapter;
 
@@ -74,7 +70,7 @@ public class MainFragment extends BaseFragment implements MainView {
         View view = inflater.inflate(R.layout.fragment_main, null);
         ButterKnife.bind(this, view);
 
-        activityCallback.setFragmentName("MainFragment");
+        activityCallback.setFragmentName("NoteListFragment");
 
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(llm);
@@ -95,17 +91,15 @@ public class MainFragment extends BaseFragment implements MainView {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                Note note = noteItemAdapter.getNoteByPosition(viewHolder.getAdapterPosition());
-                presenter.model.deleteNoteById(note.getId()).subscribe();
-                noteItemAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-                noteItemAdapter.notifyItemRangeChanged(viewHolder.getAdapterPosition(), noteItemAdapter.list.size());
+                presenter.deleteNoteById(noteItemAdapter.getNoteByPosition(viewHolder.getAdapterPosition()).getId());
+                updateNoteItemAdapterOnItemRemove(viewHolder.getAdapterPosition());
             }
         });
         itemTouchhelper.attachToRecyclerView(recyclerView);
 
         fab.setOnClickListener(view1 -> activityCallback.startCreateNote());
 
-        presenter = new MainPresenter(this);
+        presenter = new NoteListPresenter(this);
         presenter.onCreate(savedInstanceState);
         return view;
     }
@@ -150,5 +144,11 @@ public class MainFragment extends BaseFragment implements MainView {
     @Override
     public void showEmptyList() {
         showError("База пуста");
+    }
+
+    @Override
+    public void updateNoteItemAdapterOnItemRemove(int adapterPosition) {
+        noteItemAdapter.notifyItemRemoved(adapterPosition);
+        noteItemAdapter.notifyItemRangeChanged(adapterPosition, noteItemAdapter.getItemCount());
     }
 }

@@ -17,7 +17,7 @@ import java.util.List;
 
 public class NoteItemAdapter extends RecyclerView.Adapter<NoteItemAdapter.ViewHolder> {
 
-    public List<Note> list;
+    private List<Note> list;
     private TypedArray colors;
 
     public NoteItemAdapter(List<Note> list) {
@@ -48,7 +48,7 @@ public class NoteItemAdapter extends RecyclerView.Adapter<NoteItemAdapter.ViewHo
             Log.d("NoteItemAdapter", "onClick: "+ note.getTitle());
         });
         holder.icon.setColorFilter(getRandomColor());
-        String iconText = note.getTitle().length() != 0? note.getTitle().substring(0,1): note.getText().length() != 0?note.getText():"";
+        String iconText = note.getTitle().length() != 0? note.getTitle(): note.getText().length() != 0?note.getText():"";
         holder.iconText.setText(iconText.toUpperCase());
     }
 
