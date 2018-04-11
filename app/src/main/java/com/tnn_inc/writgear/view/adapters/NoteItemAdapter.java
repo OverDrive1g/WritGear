@@ -2,6 +2,7 @@ package com.tnn_inc.writgear.view.adapters;
 
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.tnn_inc.writgear.R;
 import com.tnn_inc.writgear.model.database.entities.Note;
+import com.tnn_inc.writgear.presenter.NoteListPresenter;
 
 import java.util.List;
 
@@ -19,9 +21,11 @@ public class NoteItemAdapter extends RecyclerView.Adapter<NoteItemAdapter.ViewHo
 
     private List<Note> list;
     private TypedArray colors;
+    private NoteListPresenter presenter;
 
-    public NoteItemAdapter(List<Note> list) {
+    public NoteItemAdapter(List<Note> list, NoteListPresenter presenter) {
         this.list = list;
+        this.presenter = presenter;
     }
 
     @Override
@@ -43,10 +47,9 @@ public class NoteItemAdapter extends RecyclerView.Adapter<NoteItemAdapter.ViewHo
         final Note note = list.get(position);
         holder.text.setText(note.getTitle());
         holder.time.setText(" ");
-        holder.text.setOnClickListener(view -> {
-            // TODO: 08.04.2018 открытие в новом view
-            Log.d("NoteItemAdapter", "onClick: "+ note.getTitle());
-        });
+
+        holder.layout.setOnClickListener(view -> presenter.clickNote(note));
+
         holder.icon.setColorFilter(getRandomColor());
         String iconText = note.getTitle().length() != 0? note.getTitle(): note.getText().length() != 0?note.getText():"";
         holder.iconText.setText(iconText.toUpperCase());
@@ -73,6 +76,7 @@ public class NoteItemAdapter extends RecyclerView.Adapter<NoteItemAdapter.ViewHo
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        CardView layout;
         ImageView icon;
         TextView iconText;
         TextView time;
@@ -80,6 +84,7 @@ public class NoteItemAdapter extends RecyclerView.Adapter<NoteItemAdapter.ViewHo
 
         public ViewHolder(View itemView) {
             super(itemView);
+            layout = itemView.findViewById(R.id.item_layout);
             text = itemView.findViewById(R.id.note_title);
             time = itemView.findViewById(R.id.create_time);
             icon = itemView.findViewById(R.id.icon);

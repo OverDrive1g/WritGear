@@ -136,7 +136,7 @@ public class NoteListFragment extends BaseFragment implements NoteListView {
 
     @Override
     public void showData(List<Note> noteList) {
-        noteItemAdapter = new NoteItemAdapter(noteList);
+        noteItemAdapter = new NoteItemAdapter(noteList, presenter);
         recyclerView.setAdapter(noteItemAdapter);
 
     }
@@ -150,5 +150,10 @@ public class NoteListFragment extends BaseFragment implements NoteListView {
     public void updateNoteItemAdapterOnItemRemove(int adapterPosition) {
         noteItemAdapter.notifyItemRemoved(adapterPosition);
         noteItemAdapter.notifyItemRangeChanged(adapterPosition, noteItemAdapter.getItemCount());
+    }
+
+    @Override
+    public void startEditNoteFragment(Note note) {
+        activityCallback.startNoteCreateFragment(note);
     }
 }

@@ -15,6 +15,7 @@ import android.view.MenuItem;
 
 import com.squareup.leakcanary.LeakCanary;
 import com.tnn_inc.writgear.R;
+import com.tnn_inc.writgear.model.database.entities.Note;
 import com.tnn_inc.writgear.view.fragment.CreateNoteFragment;
 import com.tnn_inc.writgear.view.fragment.NoteListFragment;
 
@@ -85,12 +86,17 @@ public class WritGearApplication extends AppCompatActivity implements ActivityCa
 
     @Override
     public void startCreateNote() {
-        replaceFragment(CreateNoteFragment.newInstance(), true);
+        replaceFragment(CreateNoteFragment.newInstance(null), true);
     }
 
     @Override
     public AppCompatActivity getActivity() {
         return this;
+    }
+
+    @Override
+    public void startNoteCreateFragment(Note note) {
+        replaceFragment(CreateNoteFragment.newInstance(note), true);
     }
 
     @Override

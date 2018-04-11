@@ -39,6 +39,10 @@ public class NoteListPresenter extends BasePresenter {
                 throwable -> view.showError(throwable.getMessage()));
     }
 
+    public void clickNote(Note note){
+        view.startEditNoteFragment(note);
+    }
+
     private void dispose(){
         if( disposable != null){
             if (!disposable.isDisposed()){

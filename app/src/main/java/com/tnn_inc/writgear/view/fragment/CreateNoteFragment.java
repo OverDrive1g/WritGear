@@ -4,18 +4,15 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.*;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.pushtorefresh.storio3.sqlite.StorIOSQLite;
-import com.pushtorefresh.storio3.sqlite.impl.DefaultStorIOSQLite;
 import com.tnn_inc.writgear.R;
-import com.tnn_inc.writgear.model.database.DbOpenHelper;
-import com.tnn_inc.writgear.model.database.entities.Note;
-import com.tnn_inc.writgear.model.database.entities.NoteSQLiteTypeMapping;
 import com.tnn_inc.writgear.presenter.BasePresenter;
 import com.tnn_inc.writgear.presenter.CreateNotePresenter;
+import com.tnn_inc.writgear.presenter.mappers.vo.Note;
 import com.tnn_inc.writgear.view.ActivityCallback;
 
 import butterknife.BindView;
@@ -23,6 +20,8 @@ import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 
 public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
+    private static final String BUNDLE_NOTE_KEY = "BUNDLE_NOTE_KEY";
+
     CreateNotePresenter presenter;
     @BindView(R.id.note_text)
     EditText mainEditText;
@@ -30,8 +29,19 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
     @BindView(R.id.note_title)
     EditText titleEditText;
 
-    public static CreateNoteFragment newInstance() {
-        return new CreateNoteFragment();
+    Note note;
+
+    public static CreateNoteFragment newInstance(@Nullable com.tnn_inc.writgear.model.database.entities.Note note) {
+        CreateNoteFragment fragment = new CreateNoteFragment();
+
+        if(note != null){
+            Bundle args = new Bundle();
+            args.putSerializable(BUNDLE_NOTE_KEY, new Note(note.getId(),
+                    note.getTitle(), note.getText(), note.getCreateDate(), note.getGroupId()));
+            fragment.setArguments(args);
+        }
+
+        return fragment;
     }
 
     @Override
@@ -46,6 +56,11 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
         }
     }
 
+    private Note getNoteVO(){
+        Bundle bundle = getArguments();
+        return bundle != null? (Note) bundle.getSerializable(BUNDLE_NOTE_KEY):null;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,8 +68,17 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
 
         ButterKnife.bind(this, view);
         presenter = new CreateNotePresenter(this);
+        note = getNoteVO();
+        if(note != null)
+            setViewData(note);
+
         activityCallback.setFragmentName("CreateNoteFragment");
         return view;
+    }
+
+    private void setViewData(Note note){
+        this.mainEditText.setText(note.getText());
+        this.titleEditText.setText(note.getTitle());
     }
 
     @Override
@@ -86,5 +110,10 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
     @Override
     public String getText() {
         return mainEditText.getText().toString();
+    }
+
+    @Override
+    public Note getNote() {
+        return this.note;
     }
 }

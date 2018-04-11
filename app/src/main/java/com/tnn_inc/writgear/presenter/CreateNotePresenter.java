@@ -14,6 +14,14 @@ public class CreateNotePresenter extends BasePresenter {
     }
 
     public void createNote(){
+        com.tnn_inc.writgear.presenter.mappers.vo.Note note = view.getNote();
+        if(note != null){
+            disposable =
+                    model.putNote(new Note(note.getId(), note.getTitle(), note.getText(),
+                            note.getCreateDate(), note.getGroupId()))
+                            .subscribe(() -> {},
+                             throwable -> view.showError(throwable.getMessage()));
+        }
         disposable =
                 model.putNote(new Note(null, view.getTitle(), view.getText(),
                 String.valueOf(System.currentTimeMillis()), null))
