@@ -1,6 +1,6 @@
 package com.tnn_inc.writgear.view.fragment;
 
-import com.tnn_inc.writgear.presenter.mappers.vo.Note;
+import com.tnn_inc.writgear.presenter.vo.Note;
 
 public interface CreateNoteView extends View {
     String getTitle();

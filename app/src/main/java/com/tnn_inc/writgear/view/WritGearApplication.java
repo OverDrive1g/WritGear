@@ -15,7 +15,8 @@ import android.view.MenuItem;
 
 import com.squareup.leakcanary.LeakCanary;
 import com.tnn_inc.writgear.R;
-import com.tnn_inc.writgear.model.database.entities.Note;
+import com.tnn_inc.writgear.model.database.entities.NoteDTO;
+import com.tnn_inc.writgear.presenter.vo.Note;
 import com.tnn_inc.writgear.view.fragment.CreateNoteFragment;
 import com.tnn_inc.writgear.view.fragment.NoteListFragment;
 

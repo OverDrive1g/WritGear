@@ -2,57 +2,57 @@ package com.tnn_inc.writgear.presenter;
 
 import android.os.Bundle;
 
-import com.tnn_inc.writgear.model.ModelImpl;
-import com.tnn_inc.writgear.model.database.entities.Note;
+import com.tnn_inc.writgear.di.App;
+import com.tnn_inc.writgear.presenter.mappers.NoteListMapper;
+import com.tnn_inc.writgear.presenter.vo.Note;
+import com.tnn_inc.writgear.view.ActivityCallback;
 import com.tnn_inc.writgear.view.fragment.NoteListView;
 
-
-import java.util.List;
+import javax.inject.Inject;
 
 import io.reactivex.disposables.Disposable;
 
 public class NoteListPresenter extends BasePresenter {
 
+    @Inject
+    protected NoteListMapper noteListMapper;
+
     private NoteListView view;
 
-    private List<Note> noteList;
+    private ActivityCallback activityCallback;
 
-    Disposable disposable;
+    @Inject
+    public NoteListPresenter(){}
 
-    public NoteListPresenter(NoteListView view) {
+    public NoteListPresenter(NoteListView view, ActivityCallback activityCallback) {
+        super();
         this.view = view;
+        this.activityCallback = activityCallback;
+        App.getAppComponent().inject(this);
     }
 
     public void onCreate(Bundle savedInstanceState) {
-
-        dispose();
-
-        disposable = model.getNoteList()
+        Disposable disposable = model.getNoteList()
+                .map(noteListMapper)
                 .subscribe(
                         notes -> view.showData(notes),
                         throwable -> view.showError(throwable.getMessage()));
+
+        addDisposable(disposable);
     }
 
     public void deleteNoteById(int id){
         model.deleteNoteById(id).subscribe(
-                () -> {},
+                () -> view.showError("Запись " + id +" удалена!"),
                 throwable -> view.showError(throwable.getMessage()));
     }
 
     public void clickNote(Note note){
-        view.startEditNoteFragment(note);
-    }
-
-    private void dispose(){
-        if( disposable != null){
-            if (!disposable.isDisposed()){
-                disposable.dispose();
-            }
-        }
+        activityCallback.startNoteCreateFragment(note);
     }
 
     @Override
     public void onStop() {
-        dispose();
+        super.onStop();
     }
 }

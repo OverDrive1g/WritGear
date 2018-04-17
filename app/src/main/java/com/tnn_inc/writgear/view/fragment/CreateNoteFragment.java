@@ -10,9 +10,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.tnn_inc.writgear.R;
+import com.tnn_inc.writgear.model.database.entities.NoteDTO;
 import com.tnn_inc.writgear.presenter.BasePresenter;
 import com.tnn_inc.writgear.presenter.CreateNotePresenter;
-import com.tnn_inc.writgear.presenter.mappers.vo.Note;
+import com.tnn_inc.writgear.presenter.vo.Note;
 import com.tnn_inc.writgear.view.ActivityCallback;
 
 import butterknife.BindView;
@@ -31,13 +32,12 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
 
     Note note;
 
-    public static CreateNoteFragment newInstance(@Nullable com.tnn_inc.writgear.model.database.entities.Note note) {
+    public static CreateNoteFragment newInstance(@Nullable Note note) {
         CreateNoteFragment fragment = new CreateNoteFragment();
 
         if(note != null){
             Bundle args = new Bundle();
-            args.putSerializable(BUNDLE_NOTE_KEY, new Note(note.getId(),
-                    note.getTitle(), note.getText(), note.getCreateDate(), note.getGroupId()));
+            args.putSerializable(BUNDLE_NOTE_KEY, new Note(note.getTitle(), note.getText()));
             fragment.setArguments(args);
         }
 
@@ -88,6 +88,11 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
     }
 
     @Override
+    public void showMessage(String msg) {
+        makeToast(msg);
+    }
+
+    @Override
     public void showError(String msg) {
         makeToast("ERROR! " + msg);
     }
@@ -99,7 +104,7 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
 
     @Override
     protected BasePresenter getPresenter() {
-        return null;
+        return presenter;
     }
 
     @Override

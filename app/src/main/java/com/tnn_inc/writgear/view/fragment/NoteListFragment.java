@@ -16,9 +16,10 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
 import com.tnn_inc.writgear.R;
-import com.tnn_inc.writgear.model.database.entities.Note;
+import com.tnn_inc.writgear.model.database.entities.NoteDTO;
 import com.tnn_inc.writgear.presenter.BasePresenter;
 import com.tnn_inc.writgear.presenter.NoteListPresenter;
+import com.tnn_inc.writgear.presenter.vo.Note;
 import com.tnn_inc.writgear.view.ActivityCallback;
 import com.tnn_inc.writgear.view.adapters.NoteItemAdapter;
 
@@ -91,7 +92,7 @@ public class NoteListFragment extends BaseFragment implements NoteListView {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                presenter.deleteNoteById(noteItemAdapter.getNoteByPosition(viewHolder.getAdapterPosition()).getId());
+                // presenter.deleteNoteById(noteItemAdapter.getNoteByPosition(viewHolder.getAdapterPosition()).getId());
                 updateNoteItemAdapterOnItemRemove(viewHolder.getAdapterPosition());
             }
         });
@@ -99,7 +100,7 @@ public class NoteListFragment extends BaseFragment implements NoteListView {
 
         fab.setOnClickListener(view1 -> activityCallback.startCreateNote());
 
-        presenter = new NoteListPresenter(this);
+        presenter = new NoteListPresenter(this, activityCallback);
         presenter.onCreate(savedInstanceState);
         return view;
     }
@@ -117,6 +118,11 @@ public class NoteListFragment extends BaseFragment implements NoteListView {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void showMessage(String msg) {
+        makeToast(msg);
     }
 
     @Override
@@ -150,10 +156,5 @@ public class NoteListFragment extends BaseFragment implements NoteListView {
     public void updateNoteItemAdapterOnItemRemove(int adapterPosition) {
         noteItemAdapter.notifyItemRemoved(adapterPosition);
         noteItemAdapter.notifyItemRangeChanged(adapterPosition, noteItemAdapter.getItemCount());
-    }
-
-    @Override
-    public void startEditNoteFragment(Note note) {
-        activityCallback.startNoteCreateFragment(note);
     }
 }

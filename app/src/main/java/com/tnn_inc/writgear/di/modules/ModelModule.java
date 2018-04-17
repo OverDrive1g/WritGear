@@ -5,8 +5,8 @@ import android.content.Context;
 import com.pushtorefresh.storio3.sqlite.StorIOSQLite;
 import com.pushtorefresh.storio3.sqlite.impl.DefaultStorIOSQLite;
 import com.tnn_inc.writgear.model.database.DbOpenHelper;
-import com.tnn_inc.writgear.model.database.entities.Note;
-import com.tnn_inc.writgear.model.database.entities.NoteSQLiteTypeMapping;
+import com.tnn_inc.writgear.model.database.entities.NoteDTO;
+import com.tnn_inc.writgear.model.database.entities.NoteDTOSQLiteTypeMapping;
 
 import javax.inject.Singleton;
 
@@ -20,7 +20,7 @@ public class ModelModule {
     public ModelModule(Context context) {
         this.storIOSQLite = DefaultStorIOSQLite.builder()
                 .sqliteOpenHelper(new DbOpenHelper(context))
-                .addTypeMapping(Note.class, new NoteSQLiteTypeMapping())
+                .addTypeMapping(NoteDTO.class, new NoteDTOSQLiteTypeMapping())
                 .build();
     }
 

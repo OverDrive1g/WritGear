@@ -3,7 +3,7 @@ package com.tnn_inc.writgear.model;
 import com.pushtorefresh.storio3.sqlite.StorIOSQLite;
 import com.pushtorefresh.storio3.sqlite.queries.DeleteQuery;
 import com.tnn_inc.writgear.di.App;
-import com.tnn_inc.writgear.model.database.entities.Note;
+import com.tnn_inc.writgear.model.database.entities.NoteDTO;
 import com.tnn_inc.writgear.model.database.tables.NotesTable;
 
 import java.util.List;
@@ -25,10 +25,10 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public Flowable<List<Note>> getNoteList() {
+    public Flowable<List<NoteDTO>> getNoteList() {
         return storIOSQLite
                 .get()
-                .listOfObjects(Note.class)
+                .listOfObjects(NoteDTO.class)
                 .withQuery(NotesTable.QUERY_ALL)
                 .prepare()
                 .asRxFlowable(BackpressureStrategy.LATEST)
@@ -50,7 +50,7 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public Completable putNote(Note note) {
+    public Completable putNote(NoteDTO note) {
         return storIOSQLite
                 .put()
                 .object(note)

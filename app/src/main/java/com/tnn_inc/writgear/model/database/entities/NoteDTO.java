@@ -9,7 +9,7 @@ import com.pushtorefresh.storio3.sqlite.annotations.StorIOSQLiteType;
 import com.tnn_inc.writgear.model.database.tables.NotesTable;
 
 @StorIOSQLiteType(table = NotesTable.TABLE, generateTableClass = false)
-public class Note {
+public class NoteDTO {
 
     @Nullable
     @StorIOSQLiteColumn(name = NotesTable.COLUMN_ID, key = true)
@@ -31,11 +31,11 @@ public class Note {
     @StorIOSQLiteColumn(name = NotesTable.COLUMN_GROUP_ID)
     private Integer groupId;
 
-    private Note() {
+    private NoteDTO() {
     }
 
-    public Note(@Nullable Integer id, @Nullable String title, @Nullable String text,
-                @NonNull String createDate, @Nullable Integer groupId) {
+    public NoteDTO(@Nullable Integer id, @Nullable String title, @Nullable String text,
+                   @NonNull String createDate, @Nullable Integer groupId) {
         this.id = id;
         this.title = title;
         this.text = text;
@@ -69,9 +69,9 @@ public class Note {
     }
 
     @StorIOSQLiteCreator
-    static Note create(@Nullable Integer id, @Nullable String title, @Nullable String text,
-                       @NonNull String createDate, @Nullable Integer groupId) {
-        return new Note(id, title, text, createDate, groupId);
+    static NoteDTO create(@Nullable Integer id, @Nullable String title, @Nullable String text,
+                          @NonNull String createDate, @Nullable Integer groupId) {
+        return new NoteDTO(id, title, text, createDate, groupId);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class Note {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
 
-        Note note = (Note) obj;
+        NoteDTO note = (NoteDTO) obj;
         if (id != null ? !id.equals(note.id) : note.id != null) return false;
 
         assert text != null;
@@ -98,7 +98,7 @@ public class Note {
 
     @Override
     public String toString() {
-        return "Note{" +
+        return "NoteDTO{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", text='" + text + '\'' +

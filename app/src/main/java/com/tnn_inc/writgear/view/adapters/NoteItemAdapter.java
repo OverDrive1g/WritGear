@@ -4,7 +4,6 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tnn_inc.writgear.R;
-import com.tnn_inc.writgear.model.database.entities.Note;
+import com.tnn_inc.writgear.model.database.entities.NoteDTO;
 import com.tnn_inc.writgear.presenter.NoteListPresenter;
+import com.tnn_inc.writgear.presenter.vo.Note;
 
 import java.util.List;
 

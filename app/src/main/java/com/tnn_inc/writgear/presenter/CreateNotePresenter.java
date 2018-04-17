@@ -1,6 +1,7 @@
 package com.tnn_inc.writgear.presenter;
 
-import com.tnn_inc.writgear.model.database.entities.Note;
+import com.tnn_inc.writgear.model.database.entities.NoteDTO;
+import com.tnn_inc.writgear.presenter.vo.Note;
 import com.tnn_inc.writgear.view.fragment.CreateNoteView;
 
 import io.reactivex.disposables.Disposable;
@@ -13,25 +14,27 @@ public class CreateNotePresenter extends BasePresenter {
         this.view = view;
     }
 
-    public void createNote(){
-        com.tnn_inc.writgear.presenter.mappers.vo.Note note = view.getNote();
-        if(note != null){
+    public void createNote() {
+        Note note = view.getNote();
+        if (note != null) {
             disposable =
-                    model.putNote(new Note(note.getId(), note.getTitle(), note.getText(),
-                            note.getCreateDate(), note.getGroupId()))
-                            .subscribe(() -> {},
-                             throwable -> view.showError(throwable.getMessage()));
+                    model.putNote(new NoteDTO(0, note.getTitle(), note.getText(),
+                            String.valueOf(System.currentTimeMillis()), null))
+                            .subscribe(() -> {
+                                    },
+                                    throwable -> view.showError(throwable.getMessage()));
         }
         disposable =
-                model.putNote(new Note(null, view.getTitle(), view.getText(),
-                String.valueOf(System.currentTimeMillis()), null))
-                .subscribe(() -> {},
-                            throwable -> view.showError(throwable.getMessage()));
+                model.putNote(new NoteDTO(null, view.getTitle(), view.getText(),
+                        String.valueOf(System.currentTimeMillis()), null))
+                        .subscribe(() -> {
+                                },
+                                throwable -> view.showError(throwable.getMessage()));
     }
 
-    private void dispose(){
-        if( disposable != null){
-            if (!disposable.isDisposed()){
+    private void dispose() {
+        if (disposable != null) {
+            if (!disposable.isDisposed()) {
                 disposable.dispose();
             }
         }

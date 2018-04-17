@@ -2,7 +2,7 @@ package com.tnn_inc.writgear.view;
 
 import android.support.v7.app.AppCompatActivity;
 
-import com.tnn_inc.writgear.model.database.entities.Note;
+import com.tnn_inc.writgear.presenter.vo.Note;
 
 public interface ActivityCallback {
     void startCreateNote();

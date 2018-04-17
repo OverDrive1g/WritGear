@@ -8,7 +8,7 @@ import com.pushtorefresh.storio3.sqlite.annotations.StorIOSQLiteType;
 import com.tnn_inc.writgear.model.database.tables.GroupsTable;
 
 @StorIOSQLiteType(table = GroupsTable.TABLE, generateTableClass = false)
-public class Group {
+public class GroupDTO {
 
     @Nullable
     @StorIOSQLiteColumn(name = GroupsTable.COLUMN_ID, key = true)
@@ -18,10 +18,10 @@ public class Group {
     @StorIOSQLiteColumn(name = GroupsTable.COLUMN_NAME)
     private String name;
 
-    private Group(){
+    private GroupDTO(){
     }
 
-    public Group(@Nullable Integer id, @Nullable String name) {
+    public GroupDTO(@Nullable Integer id, @Nullable String name) {
         this.id = id;
         this.name = name;
     }
@@ -37,8 +37,8 @@ public class Group {
     }
 
     @StorIOSQLiteCreator
-    static Group create(@Nullable Integer id, @Nullable String name){
-        return new Group(id, name);
+    static GroupDTO create(@Nullable Integer id, @Nullable String name){
+        return new GroupDTO(id, name);
     }
     @Override
     public int hashCode() {
@@ -52,7 +52,7 @@ public class Group {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
 
-        Group group = (Group) obj;
+        GroupDTO group = (GroupDTO) obj;
         if (id != null ? !id.equals(group.id) : group.id != null) return false;
         return name.equals(group.getName());
 
@@ -60,7 +60,7 @@ public class Group {
 
     @Override
     public String toString() {
-        return "Note{" +
+        return "NoteDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
