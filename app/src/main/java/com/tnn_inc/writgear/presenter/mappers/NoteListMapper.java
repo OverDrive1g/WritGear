@@ -24,7 +24,7 @@ public class NoteListMapper implements Function<List<NoteDTO>, List<Note>>{
         }
 
         List<Note> notes = Flowable.fromIterable(noteDTOs)
-                .map(noteDTO -> new Note(noteDTO.getTitle(), noteDTO.getText()))
+                .map(noteDTO -> new Note(noteDTO.getId(), noteDTO.getTitle(), noteDTO.getText(), noteDTO.getCreateDate()))
                 .toList()
                 .toFlowable()
                 .blockingFirst();

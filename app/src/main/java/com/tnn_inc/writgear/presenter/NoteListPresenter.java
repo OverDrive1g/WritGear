@@ -1,6 +1,7 @@
 package com.tnn_inc.writgear.presenter;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.tnn_inc.writgear.di.App;
 import com.tnn_inc.writgear.presenter.mappers.NoteListMapper;
@@ -32,19 +33,25 @@ public class NoteListPresenter extends BasePresenter {
     }
 
     public void onCreate(Bundle savedInstanceState) {
+        loadNotes();
+    }
+
+    public void loadNotes(){
+        view.refreshLayoutOn();
         Disposable disposable = model.getNoteList()
                 .map(noteListMapper)
                 .subscribe(
-                        notes -> view.showData(notes),
-                        throwable -> view.showError(throwable.getMessage()));
+                        notes -> {view.showData(notes); view.refreshLayoutOff();},
+                        throwable -> {view.showError(throwable.getMessage()); view.refreshLayoutOff();});
 
         addDisposable(disposable);
     }
 
     public void deleteNoteById(int id){
         model.deleteNoteById(id).subscribe(
-                () -> view.showError("Запись " + id +" удалена!"),
+                () -> Log.d("NoteListPresenter", "Запись " + id +" удалена!"),
                 throwable -> view.showError(throwable.getMessage()));
+
     }
 
     public void clickNote(Note note){

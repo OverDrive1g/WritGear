@@ -37,7 +37,7 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
 
         if(note != null){
             Bundle args = new Bundle();
-            args.putSerializable(BUNDLE_NOTE_KEY, new Note(note.getTitle(), note.getText()));
+            args.putSerializable(BUNDLE_NOTE_KEY, note);
             fragment.setArguments(args);
         }
 

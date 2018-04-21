@@ -12,4 +12,6 @@ public interface NoteListView extends View {
     Context getContext();
     void showEmptyList();
     void updateNoteItemAdapterOnItemRemove(int adapterPosition);
+    void refreshLayoutOn();
+    void refreshLayoutOff();
 }

@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +41,9 @@ public class NoteListFragment extends BaseFragment implements NoteListView {
 
     @BindView(R.id.note_recycler)
     RecyclerView recyclerView;
+
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout refreshLayout;
 
     NoteListPresenter presenter;
 
@@ -78,6 +83,7 @@ public class NoteListFragment extends BaseFragment implements NoteListView {
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_animation_fall_down);
         recyclerView.setLayoutAnimation(animation);
 
+        refreshLayout.setOnRefreshListener(() -> presenter.loadNotes());
 
         ItemTouchHelper itemTouchhelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
             @Override
@@ -92,7 +98,8 @@ public class NoteListFragment extends BaseFragment implements NoteListView {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                // presenter.deleteNoteById(noteItemAdapter.getNoteByPosition(viewHolder.getAdapterPosition()).getId());
+                presenter.deleteNoteById(noteItemAdapter.getNoteByPosition(viewHolder.getAdapterPosition()).getId());
+                noteItemAdapter.deleteItem(viewHolder.getAdapterPosition());
                 updateNoteItemAdapterOnItemRemove(viewHolder.getAdapterPosition());
             }
         });
@@ -156,5 +163,15 @@ public class NoteListFragment extends BaseFragment implements NoteListView {
     public void updateNoteItemAdapterOnItemRemove(int adapterPosition) {
         noteItemAdapter.notifyItemRemoved(adapterPosition);
         noteItemAdapter.notifyItemRangeChanged(adapterPosition, noteItemAdapter.getItemCount());
+    }
+
+    @Override
+    public void refreshLayoutOn() {
+        refreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void refreshLayoutOff() {
+        refreshLayout.setRefreshing(false);
     }
 }
