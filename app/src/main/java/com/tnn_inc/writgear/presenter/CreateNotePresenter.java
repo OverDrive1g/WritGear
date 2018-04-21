@@ -12,7 +12,6 @@ import io.reactivex.disposables.Disposable;
 
 public class CreateNotePresenter extends BasePresenter {
     private CreateNoteView view;
-    Disposable disposable;
 
     public CreateNotePresenter(CreateNoteView view) {
         this.view = view;
@@ -20,6 +19,7 @@ public class CreateNotePresenter extends BasePresenter {
 
     public void createNote() {
         Note note = view.getNote();
+        Disposable disposable;
         if (note != null) {
             disposable =
                     model.putNote(new NoteDTO(note.getId(), view.getTitle(), view.getText(),
@@ -37,23 +37,16 @@ public class CreateNotePresenter extends BasePresenter {
                     String.valueOf(System.currentTimeMillis()), null);
             disposable =
                     model.putNote(newNote)
-                            .subscribe(() -> {
-                                    },
+                            .subscribe(
+                                    () -> view.showMessage("Зметка создана"),
                                     throwable -> view.showError(throwable.getMessage()));
         }
+        addDisposable(disposable);
     }
 
-    private void dispose() {
-        if (disposable != null) {
-            if (!disposable.isDisposed()) {
-                disposable.dispose();
-            }
-        }
-    }
 
     @Override
     public void onStop() {
-        dispose();
         super.onStop();
     }
 }

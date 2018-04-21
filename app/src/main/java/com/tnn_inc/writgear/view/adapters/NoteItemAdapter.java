@@ -64,15 +64,15 @@ public class NoteItemAdapter extends RecyclerView.Adapter<NoteItemAdapter.ViewHo
         int month = (int) (deltaTime / 2592000000L);
         String time = "";
         if (second >= 0 && minutes == 0 && hours == 0 && day == 0 && month == 0) {
-            time = second + " секунд назад";
+            time = second + " сек. назад";
         } else if (minutes >= 0 && hours == 0 && day == 0 && month == 0) {
-            time = minutes + " минут назад";
+            time = minutes + " мин. назад";
         } else if (hours >= 0 && day == 0 && month == 0) {
-            time = hours + " часов назад";
+            time = hours + " час назад";
         } else if (day >= 0 && month == 0) {
-            time = day + " дней назад";
+            time = day + " д. назад";
         } else if (month >= 0) {
-            time = month + " месяев назад";
+            time = month + " мес. назад";
         }
         holder.time.setText(time);
     }
