@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.tnninc.writgear.model.database.tables.GroupsTable;
+import com.tnninc.writgear.model.database.tables.NoteTagRelationTable;
 import com.tnninc.writgear.model.database.tables.NotesTable;
 
 
@@ -21,6 +22,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     public void onCreate(@NonNull SQLiteDatabase db) {
         db.execSQL(NotesTable.getCreateTableQuery());
         db.execSQL(GroupsTable.getCreateTableQuery());
+        db.execSQL(NoteTagRelationTable.getCreateTableQuery());
     }
 
     @Override

@@ -8,6 +8,8 @@ import com.pushtorefresh.storio3.sqlite.annotations.StorIOSQLiteCreator;
 import com.pushtorefresh.storio3.sqlite.annotations.StorIOSQLiteType;
 import com.tnninc.writgear.model.database.tables.NotesTable;
 
+import java.util.List;
+
 @StorIOSQLiteType(table = NotesTable.TABLE, generateTableClass = false)
 public class NoteDTO {
 
@@ -35,6 +37,9 @@ public class NoteDTO {
     @StorIOSQLiteColumn(name = NotesTable.COLUMN_COLOR)
     private Integer color;
 
+    @Nullable
+    private List<TagDTO> tags;
+
     private NoteDTO() {
     }
 
@@ -46,6 +51,18 @@ public class NoteDTO {
         this.createDate = createDate;
         this.groupId = groupId;
         this.color = color;
+    }
+
+    public NoteDTO(@Nullable Integer id, @Nullable String title, @Nullable String text,
+                   @NonNull String createDate, @Nullable Integer groupId, @NonNull Integer color,
+                   @Nullable List<TagDTO> tags) {
+        this.id = id;
+        this.title = title;
+        this.text = text;
+        this.createDate = createDate;
+        this.groupId = groupId;
+        this.color = color;
+        this.tags = tags;
     }
 
     @Nullable
@@ -76,6 +93,11 @@ public class NoteDTO {
     @NonNull
     public Integer getColor() {
         return color;
+    }
+
+    @Nullable
+    public List<TagDTO> getTags() {
+        return tags;
     }
 
     @StorIOSQLiteCreator

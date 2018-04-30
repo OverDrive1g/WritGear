@@ -40,6 +40,7 @@ public class GroupDTO {
     static GroupDTO create(@Nullable Integer id, @Nullable String name){
         return new GroupDTO(id, name);
     }
+
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
