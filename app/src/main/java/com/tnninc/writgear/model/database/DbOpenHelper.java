@@ -15,7 +15,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "writgear_db";
 
     public DbOpenHelper(@NonNull Context context) {
-        super(context, DB_NAME, null, 1);
+        super(context, DB_NAME, null, 2);
     }
 
     @Override
@@ -26,7 +26,9 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if(oldVersion == 1 && newVersion == 2){
+            db.execSQL(NoteTagRelationTable.getCreateTableQuery());
+        }
     }
 }
