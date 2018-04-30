@@ -14,6 +14,7 @@ public class NotesTable {
     public static final String COLUMN_TEXT = "_text";
     public static final String COLUMN_GROUP_ID = "group_id";
     public static final String COLUMN_CREATE_DATA = "create_data";
+    public static final String COLUMN_COLOR = "color";
 
     private NotesTable() {
         throw new IllegalStateException("No instances please");
@@ -31,7 +32,8 @@ public class NotesTable {
                 + COLUMN_TITLE + " VARCHAR (255) COLLATE NOCASE, "
                 + COLUMN_TEXT + " TEXT COLLATE NOCASE,"
                 + COLUMN_GROUP_ID + " INTEGER REFERENCES groups (id),"
-                + COLUMN_CREATE_DATA + " VARCHAR (20) NOT NULL"
+                + COLUMN_CREATE_DATA + " VARCHAR (20) NOT NULL,"
+                + COLUMN_COLOR + " INTEGER NOT NULL"
                 + ");";
     }
 }

@@ -7,13 +7,14 @@ public class Note implements Serializable {
     private String title;
     private String text;
     private String time;
+    private Integer color;
 
-
-    public Note(Integer id, String title, String text, String time) {
+    public Note(Integer id, String title, String text, String time, Integer color) {
         this.id = id;
         this.title = title;
         this.text = text;
         this.time = time;
+        this.color = color;
     }
 
     public Integer getId() {
@@ -46,5 +47,13 @@ public class Note implements Serializable {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public Integer getColor() {
+        return color;
+    }
+
+    public void setColor(Integer color) {
+        this.color = color;
     }
 }

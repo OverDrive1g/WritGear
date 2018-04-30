@@ -1,10 +1,11 @@
 package com.tnninc.writgear.view;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -18,13 +19,22 @@ import com.tnninc.writgear.R;
 import com.tnninc.writgear.presenter.vo.Note;
 import com.tnninc.writgear.view.fragment.CreateNoteFragment;
 import com.tnninc.writgear.view.fragment.NoteListFragment;
+import com.tnninc.writgear.view.fragment.SettingsFragment;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class WritGearApplication extends AppCompatActivity implements ActivityCallback{
 
     private static String TAG = "MainWringGearApplication";
 
     private FragmentManager fragmentManager;
-    private DrawerLayout drawerLayout;
+
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
     private String fragment = "";
 
     @Override
@@ -39,11 +49,32 @@ public class WritGearApplication extends AppCompatActivity implements ActivityCa
         LeakCanary.install(this.getApplication());
 
         setContentView(R.layout.main_activity);
-        drawerLayout = findViewById(R.id.drawer_layout);
+        ButterKnife.bind(this);
 
         createToolBar();
 
-        fragmentManager = getSupportFragmentManager();
+        navigationView.setNavigationItemSelectedListener(item -> {
+            item.setChecked(true);
+
+            switch (item.getItemId()){
+                case R.id.nav_tag:
+                    break;
+                case R.id.nav_note:
+                    replaceFragment(new NoteListFragment(), true);
+                case R.id.nav_trash:
+                    break;
+                case R.id.nav_project:
+                    break;
+                case R.id.nav_settings:
+                    replaceFragment(new SettingsFragment(), true);
+                    break;
+            }
+
+            drawerLayout.closeDrawers();
+            return true;
+        });
+
+        fragmentManager = getFragmentManager();
         Fragment fragment = fragmentManager.findFragmentByTag(TAG);
 
         if (fragment == null) replaceFragment(new NoteListFragment(), false);

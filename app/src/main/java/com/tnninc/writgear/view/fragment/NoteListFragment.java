@@ -77,6 +77,7 @@ public class NoteListFragment extends BaseFragment implements NoteListView {
         activityCallback.setFragmentName("NoteListFragment");
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_animation_fall_down);
         recyclerView.setLayoutAnimation(animation);
@@ -149,7 +150,6 @@ public class NoteListFragment extends BaseFragment implements NoteListView {
     public void showData(List<Note> noteList) {
         noteItemAdapter = new NoteItemAdapter(noteList, presenter);
         recyclerView.setAdapter(noteItemAdapter);
-
     }
 
     @Override

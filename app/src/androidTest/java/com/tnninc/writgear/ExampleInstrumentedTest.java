@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.tnn_inc.writgear", appContext.getPackageName());
+        assertEquals("com.tnninc.writgear", appContext.getPackageName());
     }
 }

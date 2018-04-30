@@ -66,7 +66,7 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
         View view = inflater.inflate(R.layout.create_note_fragment, null);
 
         ButterKnife.bind(this, view);
-        presenter = new CreateNotePresenter(this);
+        presenter = new CreateNotePresenter(this, activityCallback);
         note = getNoteVO();
         if(note != null)
             setViewData(note);

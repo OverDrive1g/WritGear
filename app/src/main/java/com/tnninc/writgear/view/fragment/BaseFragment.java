@@ -1,6 +1,6 @@
 package com.tnninc.writgear.view.fragment;
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.widget.Toast;
 
 import com.tnninc.writgear.presenter.BasePresenter;
@@ -20,6 +20,6 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected void makeToast(String msg){
-        Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
     }
 }

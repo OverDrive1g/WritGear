@@ -19,7 +19,6 @@ public class DbOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(@NonNull SQLiteDatabase db) {
-        Log.d("db create", "onCreate: db");
         db.execSQL(NotesTable.getCreateTableQuery());
         db.execSQL(GroupsTable.getCreateTableQuery());
     }

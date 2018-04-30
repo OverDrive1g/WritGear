@@ -31,16 +31,21 @@ public class NoteDTO {
     @StorIOSQLiteColumn(name = NotesTable.COLUMN_GROUP_ID)
     private Integer groupId;
 
+    @NonNull
+    @StorIOSQLiteColumn(name = NotesTable.COLUMN_COLOR)
+    private Integer color;
+
     private NoteDTO() {
     }
 
     public NoteDTO(@Nullable Integer id, @Nullable String title, @Nullable String text,
-                   @NonNull String createDate, @Nullable Integer groupId) {
+                   @NonNull String createDate, @Nullable Integer groupId, @NonNull Integer color) {
         this.id = id;
         this.title = title;
         this.text = text;
         this.createDate = createDate;
         this.groupId = groupId;
+        this.color = color;
     }
 
     @Nullable
@@ -68,10 +73,15 @@ public class NoteDTO {
         return groupId;
     }
 
+    @NonNull
+    public Integer getColor() {
+        return color;
+    }
+
     @StorIOSQLiteCreator
     static NoteDTO create(@Nullable Integer id, @Nullable String title, @Nullable String text,
-                          @NonNull String createDate, @Nullable Integer groupId) {
-        return new NoteDTO(id, title, text, createDate, groupId);
+                          @NonNull String createDate, @Nullable Integer groupId, @NonNull Integer color) {
+        return new NoteDTO(id, title, text, createDate, groupId, color);
     }
 
     @Override
@@ -81,6 +91,7 @@ public class NoteDTO {
         result = 31 * result + text.hashCode();
         result = 31 * result + groupId.hashCode();
         result = 31 * result + createDate.hashCode();
+        result = 31 * result + color.hashCode();
         return result;
     }
 
@@ -104,6 +115,7 @@ public class NoteDTO {
                 ", text='" + text + '\'' +
                 ", groupId='" + groupId + '\'' +
                 ", createDate='" + createDate + '\'' +
+                ", color='" + color + '\'' +
                 '}';
     }
 }

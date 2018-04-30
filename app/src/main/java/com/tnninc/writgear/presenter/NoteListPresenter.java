@@ -41,8 +41,14 @@ public class NoteListPresenter extends BasePresenter {
         Disposable disposable = model.getNoteList()
                 .map(noteListMapper)
                 .subscribe(
-                        notes -> {view.showData(notes); view.refreshLayoutOff();},
-                        throwable -> {view.showError(throwable.getMessage()); view.refreshLayoutOff();});
+                        notes -> {
+                            view.showData(notes);
+                            view.refreshLayoutOff();
+                            },
+                        throwable -> {
+                            Log.d("NoteListPresenter", throwable.getMessage());
+                            view.refreshLayoutOff();
+                        });
 
         addDisposable(disposable);
     }

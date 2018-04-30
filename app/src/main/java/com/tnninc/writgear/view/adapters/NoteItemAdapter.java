@@ -13,13 +13,13 @@ import android.widget.TextView;
 import com.tnninc.writgear.R;
 import com.tnninc.writgear.presenter.NoteListPresenter;
 import com.tnninc.writgear.presenter.vo.Note;
+import com.tnninc.writgear.utils.Converter;
 
 import java.util.List;
 
 public class NoteItemAdapter extends RecyclerView.Adapter<NoteItemAdapter.ViewHolder> {
 
     private List<Note> list;
-    private TypedArray colors;
     private NoteListPresenter presenter;
 
     public NoteItemAdapter(List<Note> list, NoteListPresenter presenter) {
@@ -31,13 +31,6 @@ public class NoteItemAdapter extends RecyclerView.Adapter<NoteItemAdapter.ViewHo
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.note_list_item, viewGroup, false);
 
-        int arrayId = viewGroup.getResources().getIdentifier("mdcolor_400", "array",
-                viewGroup.getContext().getPackageName());
-
-        if (arrayId != 0) {
-            colors = viewGroup.getResources().obtainTypedArray(arrayId);
-        }
-
         return new ViewHolder(v);
     }
 
@@ -45,45 +38,21 @@ public class NoteItemAdapter extends RecyclerView.Adapter<NoteItemAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Note note = list.get(position);
         holder.text.setText(note.getTitle());
-        holder.time.setText(" ");
 
         holder.layout.setOnClickListener(view -> presenter.clickNote(note));
 
-        holder.icon.setColorFilter(getRandomColor());
+        holder.icon.setColorFilter(note.getColor());
         String iconText = note.getTitle().length() != 0 ? note.getTitle() : note.getText().length() != 0 ? note.getText() : "";
         holder.iconText.setText(iconText.toUpperCase());
 
         long currentTime = System.currentTimeMillis();
         long deltaTime = currentTime - Long.parseLong(note.getTime());
-        int second = (int) (deltaTime / 1000);
-        int minutes = (int) (deltaTime / 60000);
-        int hours = (int) (deltaTime / 3600000);
-        int day = (int) (deltaTime / 86400000);
-        int month = (int) (deltaTime / 2592000000L);
-        String time = "";
-        if (second >= 0 && minutes == 0 && hours == 0 && day == 0 && month == 0) {
-            time = second + " сек. назад";
-        } else if (minutes >= 0 && hours == 0 && day == 0 && month == 0) {
-            time = minutes + " мин. назад";
-        } else if (hours >= 0 && day == 0 && month == 0) {
-            time = hours + " час назад";
-        } else if (day >= 0 && month == 0) {
-            time = day + " д. назад";
-        } else if (month >= 0) {
-            time = month + " мес. назад";
-        }
-        holder.time.setText(time);
+
+        holder.time.setText(Converter.getTimeAgoByDeltatime(deltaTime));
     }
 
     public void deleteItem(int id) {
         list.remove(id);
-    }
-
-    private int getRandomColor() {
-        int returnColor = Color.GRAY;
-        int index = (int) (Math.random() * colors.length());
-        returnColor = colors.getColor(index, Color.GRAY);
-        return returnColor;
     }
 
     @Override

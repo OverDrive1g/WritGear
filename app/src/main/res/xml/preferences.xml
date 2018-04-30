@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceScreen
+        android:title="Основные"
+        android:key="pref_general">
+        <PreferenceCategory
+            android:title="Сортировка списка заметок"
+            android:key="">
+            <ListPreference
+                android:key="pref_sort_by"
+                android:title="Сортироват по"
+                android:entries="@array/test_list"
+                android:entryValues="@array/test_list"/>
+            <SwitchPreference
+                android:key="pref_sort_by_new"
+                android:title="Сначала новые"
+                android:summary="Сортиироват по дате создания" />
+        </PreferenceCategory>
+
+    </PreferenceScreen>
+
+    <PreferenceCategory
+        android:title="Импорт и экспорт"
+        android:key="pref_key_import_export_settings">
+        <ListPreference
+            android:key="test_style"
+            android:title="Тест списка"
+            android:defaultValue="1"
+            android:entries="@array/test_list"
+            android:entryValues="@array/test_list"
+            android:dialogTitle="Выбрат кек" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Тема"
+        android:key="pref_key_import_export_settings">
+        <SwitchPreference
+            android:key="pref_kekot"
+            android:title="Кеки"
+            android:summary="Активировать ы" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -20,4 +20,11 @@
         <item name="grey_400" type="color">#bdbdbd</item>
         <item name="blue_grey_400" type="color">#78909c</item>
     </array>
+
+    <string-array name="test_list">
+        <item>Тест 1</item>
+        <item>Тест 2</item>
+        <item>Тест 3</item>
+        <item>Тест 4</item>
+    </string-array>
 </resources>
