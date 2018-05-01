@@ -4,7 +4,9 @@
     <string name="note">Заметка</string>
     <string name="title_note">Заголовок</string>
     <string name="notes">Заметки</string>
-    <string name="tags">Теги</string>
+    <string name="tags">Тэги</string>
     <string name="projects">Проекты</string>
     <string name="trash_can">Корзина</string>
+    <string name="save">Сохранить</string>
+    <string name="tag">Тэг</string>
 </resources>

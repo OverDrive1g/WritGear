@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -23,6 +26,7 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
     private static final String BUNDLE_NOTE_KEY = "BUNDLE_NOTE_KEY";
 
     CreateNotePresenter presenter;
+
     @BindView(R.id.note_text)
     EditText mainEditText;
 
@@ -30,6 +34,10 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
     EditText titleEditText;
 
     Note note;
+
+    public CreateNoteFragment() {
+        setHasOptionsMenu(true);
+    }
 
     public static CreateNoteFragment newInstance(@Nullable Note note) {
         CreateNoteFragment fragment = new CreateNoteFragment();
@@ -58,6 +66,29 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
     private Note getNoteVO(){
         Bundle bundle = getArguments();
         return bundle != null? (Note) bundle.getSerializable(BUNDLE_NOTE_KEY):null;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_create_note, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add_tag:
+                return true;
+            case R.id.action_save:
+                presenter.createNote();
+                getActivity().onBackPressed();
+                return true;
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Nullable

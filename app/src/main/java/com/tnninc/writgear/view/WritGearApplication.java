@@ -104,8 +104,12 @@ public class WritGearApplication extends AppCompatActivity implements ActivityCa
                     drawerLayout.openDrawer(GravityCompat.START);
                 else onBackPressed();
                 return true;
+            case R.id.action_settings:
+                replaceFragment(new SettingsFragment(), true);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     private void replaceFragment(Fragment fragment, boolean addBackStack) {
