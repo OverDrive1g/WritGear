@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Writ Gear</string>
+    <string name="action_settings">Настройки</string>
+    <string name="note">Заметка</string>
+    <string name="title_note">Заголовок</string>
+    <string name="notes">Заметки</string>
+    <string name="tags">Теги</string>
+    <string name="projects">Проекты</string>
+    <string name="trash_can">Корзина</string>
+</resources>
