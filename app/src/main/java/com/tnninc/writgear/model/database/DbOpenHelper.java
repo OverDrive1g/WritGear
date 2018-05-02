@@ -28,6 +28,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if(oldVersion == 1 && newVersion == 2){
+            db.execSQL(NotesTable.getCreateTableQuery());
             db.execSQL(NoteTagRelationTable.getCreateTableQuery());
         }
     }

@@ -10,7 +10,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.tnninc.writgear"
+        applicationId "com.tnn_inc.writgear"
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 6
