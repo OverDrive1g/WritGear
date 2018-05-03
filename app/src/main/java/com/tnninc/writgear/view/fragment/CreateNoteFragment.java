@@ -2,8 +2,9 @@ package com.tnninc.writgear.view.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.tnninc.writgear.R;
 import com.tnninc.writgear.presenter.BasePresenter;
@@ -20,12 +22,14 @@ import com.tnninc.writgear.view.ActivityCallback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.disposables.Disposable;
 
 public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
     private static final String BUNDLE_NOTE_KEY = "BUNDLE_NOTE_KEY";
 
     CreateNotePresenter presenter;
+
+    @BindView(R.id.create_note_layout)
+    LinearLayout createNoteLayout;
 
     @BindView(R.id.note_text)
     EditText mainEditText;
@@ -34,6 +38,8 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
     EditText titleEditText;
 
     Note note;
+
+    AddTagDialogFragment dialog;
 
     public CreateNoteFragment() {
         setHasOptionsMenu(true);
@@ -63,6 +69,22 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
         }
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.create_note_fragment, null);
+
+        ButterKnife.bind(this, view);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        dialog = new AddTagDialogFragment();
+        presenter = new CreateNotePresenter(this, activityCallback);
+        note = getNoteVO();
+        if(note != null)
+            setViewData(note);
+
+        return view;
+    }
+
     private Note getNoteVO(){
         Bundle bundle = getArguments();
         return bundle != null? (Note) bundle.getSerializable(BUNDLE_NOTE_KEY):null;
@@ -78,10 +100,13 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                getActivity().onBackPressed();
+                return true;
             case R.id.add_tag:
+                dialog.show(getFragmentManager(), "dialog");
                 return true;
             case R.id.action_save:
-                presenter.createNote();
                 getActivity().onBackPressed();
                 return true;
             case R.id.action_settings:
@@ -89,21 +114,6 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.create_note_fragment, null);
-
-        ButterKnife.bind(this, view);
-        presenter = new CreateNotePresenter(this, activityCallback);
-        note = getNoteVO();
-        if(note != null)
-            setViewData(note);
-
-        activityCallback.setFragmentName("CreateNoteFragment");
-        return view;
     }
 
     private void setViewData(Note note){
@@ -125,11 +135,6 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
     @Override
     public void showError(String msg) {
         makeToast("ERROR! " + msg);
-    }
-
-    @Override
-    public void disposeOnStop(@NonNull Disposable disposable) {
-        // TODO: 09.04.2018
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -47,15 +48,6 @@ public class NoteListFragment extends BaseFragment implements NoteListView {
 
     NoteItemAdapter noteItemAdapter;
 
-    @NonNull
-    private final CompositeDisposable compositeDisposableForOnStop = new CompositeDisposable();
-
-    @Override
-    public void onStop() {
-        compositeDisposableForOnStop.clear();
-        super.onStop();
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -73,8 +65,8 @@ public class NoteListFragment extends BaseFragment implements NoteListView {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, null);
         ButterKnife.bind(this, view);
-
-        activityCallback.setFragmentName("NoteListFragment");
+        setHasOptionsMenu(true);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -113,12 +105,12 @@ public class NoteListFragment extends BaseFragment implements NoteListView {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        if(id == android.R.id.home){
+            activityCallback.openDrawer();
+            return true;
+        }
         if (id == R.id.action_settings) {
             return true;
         }
@@ -134,11 +126,6 @@ public class NoteListFragment extends BaseFragment implements NoteListView {
     @Override
     public void showError(String msg) {
         makeToast("ERROR! " + msg);
-    }
-
-    @Override
-    public void disposeOnStop(@NonNull Disposable disposable) {
-        compositeDisposableForOnStop.add(disposable);
     }
 
     @Override

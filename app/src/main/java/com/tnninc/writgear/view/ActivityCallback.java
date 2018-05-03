@@ -8,5 +8,5 @@ public interface ActivityCallback {
     void startCreateNote();
     AppCompatActivity getActivity();
     void startNoteCreateFragment(Note note);
-    void setFragmentName(String fragmentName);
+    void openDrawer();
 }

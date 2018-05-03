@@ -96,22 +96,6 @@ public class WritGearApplication extends AppCompatActivity implements ActivityCa
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                if(this.fragment.equals("NoteListFragment"))
-                    drawerLayout.openDrawer(GravityCompat.START);
-                else onBackPressed();
-                return true;
-            case R.id.action_settings:
-                replaceFragment(new SettingsFragment(), true);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
     private void replaceFragment(Fragment fragment, boolean addBackStack) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.container, fragment, TAG);
@@ -135,14 +119,7 @@ public class WritGearApplication extends AppCompatActivity implements ActivityCa
     }
 
     @Override
-    public void setFragmentName(String fragmentName) {
-        ActionBar actionbar = getSupportActionBar();
-        this.fragment = fragmentName;
-        if (fragmentName.equals("NoteListFragment"))
-            actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
-        else
-            actionbar.setHomeAsUpIndicator(R.drawable.ic_back);
-
+    public void openDrawer() {
+        drawerLayout.openDrawer(GravityCompat.START);
     }
-
 }
