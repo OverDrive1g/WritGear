@@ -9,4 +9,6 @@
     <string name="trash_can">Корзина</string>
     <string name="save">Сохранить</string>
     <string name="tag">Тэг</string>
+    <string name="choice_tag_for_note">Выберите тэг</string>
+    <string name="add_tags">Добавьте тэг…</string>
 </resources>

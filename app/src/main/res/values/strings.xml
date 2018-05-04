@@ -9,4 +9,6 @@
     <string name="trash_can">Trash can</string>
     <string name="save">Save</string>
     <string name="tag">Tag</string>
+    <string name="choice_tag_for_note">Choice tag</string>
+    <string name="add_tags">Add tags…</string>
 </resources>

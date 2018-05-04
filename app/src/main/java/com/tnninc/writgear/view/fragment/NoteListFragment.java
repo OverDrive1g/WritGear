@@ -105,17 +105,16 @@ public class NoteListFragment extends BaseFragment implements NoteListView {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
 
-        if(id == android.R.id.home){
-            activityCallback.openDrawer();
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                activityCallback.openDrawer();
+                return true;
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
