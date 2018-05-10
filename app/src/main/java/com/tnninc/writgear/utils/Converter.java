@@ -1,5 +1,11 @@
 package com.tnninc.writgear.utils;
 
+import com.tnninc.writgear.model.database.entities.TagDTO;
+import com.tnninc.writgear.presenter.vo.Tag;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Converter {
     public static String getTimeAgoByDeltatime(long deltaTime){
         int second = (int) (deltaTime / 1000);
@@ -20,5 +26,25 @@ public class Converter {
             time = month + " мес. назад";
         }
         return time;
+    }
+
+    public static List<Tag> getTagsFromTagDTOs(List<TagDTO> tags){
+        List<Tag> result = new ArrayList<>();
+
+        for (TagDTO t:tags) {
+            result.add(new Tag(t));
+        }
+
+        return result;
+    }
+
+    public static List<TagDTO> getTagDTOsFromTags(List<Tag> tags){
+        List<TagDTO> result = new ArrayList<>();
+
+        for (Tag t:tags) {
+            result.add(new TagDTO(t.getId(), t.getName()));
+        }
+
+        return result;
     }
 }

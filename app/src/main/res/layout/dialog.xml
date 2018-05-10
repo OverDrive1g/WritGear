@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:minWidth="300dp"
-    android:minHeight="480dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minWidth="280dp"
     android:padding="20dp"
     android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/dialog_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/choice_tag_for_note"
-        android:textColor="@color/primary_text"
-        android:textSize="22sp" />
 
     <EditText
         android:id="@+id/tag_edit_text"
@@ -22,28 +13,8 @@
         android:hint="@string/add_tags"/>
 
     <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minHeight="300dp"
-        android:id="@+id/tag_list" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/ok_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="OK">
-        </Button>
-        <Button
-            android:id="@+id/cancel_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Cancel">
-        </Button>
-    </LinearLayout>
+        android:id="@+id/tag_list"
+        android:layout_width="match_parent"
+        android:layout_height="360dp"/>
 
 </LinearLayout>

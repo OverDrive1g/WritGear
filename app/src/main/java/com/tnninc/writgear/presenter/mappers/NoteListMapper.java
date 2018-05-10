@@ -10,6 +10,8 @@ import javax.inject.Inject;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Function;
 
+import static com.tnninc.writgear.utils.Converter.getTagsFromTagDTOs;
+
 
 public class NoteListMapper implements Function<List<NoteDTO>, List<Note>>{
 
@@ -25,7 +27,7 @@ public class NoteListMapper implements Function<List<NoteDTO>, List<Note>>{
 
         List<Note> notes = Flowable.fromIterable(noteDTOs)
                 .map(noteDTO -> new Note(noteDTO.getId(), noteDTO.getTitle(), noteDTO.getText(),
-                        noteDTO.getCreateDate(), noteDTO.getColor()))
+                        noteDTO.getCreateDate(), noteDTO.getColor(), getTagsFromTagDTOs(noteDTO.getTags())))
                 .toList()
                 .toFlowable()
                 .blockingFirst();

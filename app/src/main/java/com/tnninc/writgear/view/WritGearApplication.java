@@ -12,7 +12,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuItem;
 
 import com.squareup.leakcanary.LeakCanary;
 import com.tnninc.writgear.R;
@@ -35,7 +34,6 @@ public class WritGearApplication extends AppCompatActivity implements ActivityCa
 
     @BindView(R.id.nav_view)
     NavigationView navigationView;
-    private String fragment = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,6 +78,7 @@ public class WritGearApplication extends AppCompatActivity implements ActivityCa
         if (fragment == null) replaceFragment(new NoteListFragment(), false);
     }
 
+
     private void createToolBar(){
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -89,6 +88,7 @@ public class WritGearApplication extends AppCompatActivity implements ActivityCa
         actionbar.setDisplayShowTitleEnabled(false);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

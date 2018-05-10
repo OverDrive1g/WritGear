@@ -14,7 +14,7 @@ import java.util.List;
 public class TagDTO {
     @Nullable
     @StorIOSQLiteColumn(name = TagsTable.COLUMN_ID, key = true)
-    private Integer id;
+    private Long id;
 
     @NonNull
     @StorIOSQLiteColumn(name = TagsTable.COLUMN_NAME)
@@ -26,18 +26,18 @@ public class TagDTO {
     public TagDTO() {
     }
 
-    public TagDTO(@Nullable Integer id, @NonNull String name) {
+    public TagDTO(@Nullable Long id, @NonNull String name) {
         this.id = id;
         this.name = name;
     }
 
-    public TagDTO(@Nullable Integer id, @NonNull String name, @Nullable List<NoteDTO> notes) {
+    public TagDTO(@Nullable Long id, @NonNull String name, @Nullable List<NoteDTO> notes) {
         this(id, name);
         this.notes = notes;
     }
 
     @Nullable
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -52,7 +52,7 @@ public class TagDTO {
     }
 
     @StorIOSQLiteCreator
-    static TagDTO create(@Nullable Integer id, @NonNull String name){
+    static TagDTO create(@Nullable Long id, @NonNull String name){
         return new TagDTO(id, name);
     }
 
@@ -63,5 +63,11 @@ public class TagDTO {
                 ", name=" + name +
                 ", notes=" + notes +
                 "}";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        TagDTO o = (TagDTO) obj;
+        return (o.getName() == this.getName()) || (o.getId() == this.getId());
     }
 }

@@ -1,36 +1,35 @@
 package com.tnninc.writgear.view.fragment;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.app.DialogFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.tnninc.writgear.R;
-import com.tnninc.writgear.model.database.entities.TagDTO;
+import com.tnninc.writgear.presenter.AddTagsDialogPresenter;
+import com.tnninc.writgear.presenter.vo.Note;
+import com.tnninc.writgear.presenter.vo.Tag;
+import com.tnninc.writgear.view.ActivityCallback;
 import com.tnninc.writgear.view.adapters.TagItemAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AddTagDialogFragment extends DialogFragment {
-
-    @BindView(R.id.dialog_title)
-    TextView title;
-
-    @BindView(R.id.ok_btn)
-    Button ok;
-
-    @BindView(R.id.cancel_btn)
-    Button cancel;
+public class AddTagDialogFragment extends DialogFragment implements AddTagDialogView {
+    private static final String BUNDLE_NOTE_KEY = "BUNDLE_NOTE_KEY_ATDF";
 
     @BindView(R.id.tag_edit_text)
     EditText editText;
@@ -38,24 +37,111 @@ public class AddTagDialogFragment extends DialogFragment {
     @BindView(R.id.tag_list)
     ListView tagList;
 
-    @Nullable
+    private AddTagsDialogPresenter presenter;
+    TagItemAdapter adapter;
+    ActivityCallback activityCallback;
+
+    public AddTagDialogFragment() {
+    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        try {
+            activityCallback = (ActivityCallback) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement activityCallback");
+        }
+    }
+
+    public static AddTagDialogFragment newInstance(@Nullable Note note) {
+        AddTagDialogFragment fragment = new AddTagDialogFragment();
+
+        if (note != null) {
+            Bundle args = new Bundle();
+            args.putSerializable(BUNDLE_NOTE_KEY, note);
+            fragment.setArguments(args);
+        }
+
+        return fragment;
+    }
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder b=  new  AlertDialog.Builder(getActivity())
+                .setTitle(R.string.choice_tag_for_note)
+                .setPositiveButton(R.string.ok,
+                        (dialog, whichButton) -> {
+                            presenter.setTagsForNote(new ArrayList<>(adapter.getSelectedTags()));
+                            dialog.dismiss();
+                        }
+                )
+                .setNegativeButton(R.string.cancel,
+                        (dialog, whichButton) -> dialog.dismiss()
+                );
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+
         View view = inflater.inflate(R.layout.dialog, null);
 
         ButterKnife.bind(this, view);
 
-        final List<TagDTO> tags = new ArrayList<>();
-        tags.add(new TagDTO(1, "Tag 1"));
-        tags.add(new TagDTO(2, "Tag 2"));
-        tags.add(new TagDTO(3, "Tag 3"));
-        tags.add(new TagDTO(4, "Tag 4"));
-        tags.add(new TagDTO(5, "Tag 5"));
-        tags.add(new TagDTO(6, "Tag 6"));
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-        TagItemAdapter tagItemAdapter = new TagItemAdapter(getActivity().getBaseContext(), tags);
-        tagList.setAdapter(tagItemAdapter);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() == 0) {
+                    return;
+                }
+                if (start < s.length())
+                    if (s.charAt(start) == ',') {
+                        String resultTagName = s.subSequence(0, start).toString();
+                        if(Objects.equals(resultTagName, ""))
+                            return;
+                        presenter.addTag(resultTagName);
+                        editText.setText("");
+                    }
+            }
 
-        return view;
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+
+        presenter = new AddTagsDialogPresenter(this, getNoteVO());
+        presenter.onCreate(savedInstanceState);
+        return b.setView(view).create();
+    }
+
+    private Note getNoteVO() {
+        Bundle bundle = getArguments();
+        return bundle != null ? (Note) bundle.getSerializable(BUNDLE_NOTE_KEY) : null;
+    }
+
+    @Override
+    public void showMessage(String msg) {
+
+    }
+
+    @Override
+    public void showError(String msg) {
+        Log.e("AddTagDialogFragment", msg);
+    }
+
+    @Override
+    public void tagListUpdated() {
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showData(List<Tag> tags) {
+        adapter = new TagItemAdapter(getActivity().getBaseContext(), tags, getNoteVO().getTags());
+        tagList.setAdapter(adapter);
+
     }
 }

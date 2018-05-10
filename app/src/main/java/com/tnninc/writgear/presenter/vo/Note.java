@@ -1,6 +1,7 @@
 package com.tnninc.writgear.presenter.vo;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Note implements Serializable {
     private Integer id;
@@ -8,13 +9,15 @@ public class Note implements Serializable {
     private String text;
     private String time;
     private Integer color;
+    private List<Tag> tags;
 
-    public Note(Integer id, String title, String text, String time, Integer color) {
+    public Note(Integer id, String title, String text, String time, Integer color, List<Tag> tags) {
         this.id = id;
         this.title = title;
         this.text = text;
         this.time = time;
         this.color = color;
+        this.tags = tags;
     }
 
     public Integer getId() {
@@ -55,5 +58,13 @@ public class Note implements Serializable {
 
     public void setColor(Integer color) {
         this.color = color;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 }

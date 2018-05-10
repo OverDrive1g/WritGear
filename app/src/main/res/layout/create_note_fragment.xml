@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:textColorHint="@color/secondary_text"
-        android:hint="@string/note"
+        android:hint="@string/noteId"
         android:inputType="textMultiLine"
         android:singleLine="false"
         android:backgroundTint="@android:color/transparent" />

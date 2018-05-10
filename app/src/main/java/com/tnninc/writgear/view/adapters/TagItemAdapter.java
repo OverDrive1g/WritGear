@@ -6,23 +6,37 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tnninc.writgear.R;
 import com.tnninc.writgear.model.database.entities.TagDTO;
+import com.tnninc.writgear.presenter.vo.Tag;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class TagItemAdapter extends BaseAdapter {
 
     private Context context;
     private LayoutInflater layoutInflater;
-    private List<TagDTO> tags;
+    private List<Tag> tags;
+    private List<Tag> selectedTags;
+    private Set<Tag> selectedList;
 
-    public TagItemAdapter(Context context, List<TagDTO> tags) {
+    public TagItemAdapter(Context context, List<Tag> tags, List<Tag> selectedTags) {
         this.context = context;
         this.tags = tags;
+        this.selectedList = new HashSet<>();
+        if(selectedTags == null){
+            this.selectedTags = new ArrayList<>();
+        } else {
+            this.selectedTags = selectedTags;
+        }
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
     }
 
     @Override
@@ -37,7 +51,7 @@ public class TagItemAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return tags.get(i).getId();
+        return i;
     }
 
     @Override
@@ -49,24 +63,42 @@ public class TagItemAdapter extends BaseAdapter {
 
             holder = new ViewHolder();
 
-            holder.text = (TextView) view.findViewById(R.id.tag_text_view);
-            holder.cb = (CheckBox) view.findViewById(R.id.tag_check_box);
+            holder.layout = view.findViewById(R.id.tag_item);
+            holder.text = view.findViewById(R.id.tag_text_view);
+            holder.cb = view.findViewById(R.id.tag_check_box);
 
             view.setTag(holder);
         } else
             holder = (ViewHolder)view.getTag();
 
-        TagDTO tag = tags.get(i);
+        Tag tag = tags.get(i);
 
         holder.text.setText(tag.getName());
+        boolean isContains = selectedTags.contains(tag);
+        holder.cb.setChecked(isContains);
 
-        //if in this tag exist current tag then cb.setChecked(true);
+        ViewHolder finalHolder = holder;
+        holder.layout.setOnClickListener(view1 -> {
+            boolean flag = finalHolder.cb.isChecked();
+            finalHolder.cb.setChecked(!flag);
+            selectedList.add(tag);
+        });
+        holder.cb.setOnClickListener(view1 -> {
+            if(selectedList.contains(tag)){
+                selectedList.remove(tag);
+            } else
+                selectedList.add(tag);
+        });
 
         return view;
     }
 
-    class ViewHolder{
+    public Set<Tag> getSelectedTags(){
+        return selectedList;
+    }
 
+    class ViewHolder{
+        RelativeLayout layout;
         TextView text;
         CheckBox cb;
 

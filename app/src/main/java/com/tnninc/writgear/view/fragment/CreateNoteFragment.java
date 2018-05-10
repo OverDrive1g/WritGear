@@ -3,7 +3,6 @@ package com.tnninc.writgear.view.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -48,7 +47,7 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
     public static CreateNoteFragment newInstance(@Nullable Note note) {
         CreateNoteFragment fragment = new CreateNoteFragment();
 
-        if(note != null){
+        if (note != null) {
             Bundle args = new Bundle();
             args.putSerializable(BUNDLE_NOTE_KEY, note);
             fragment.setArguments(args);
@@ -75,19 +74,23 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
         View view = inflater.inflate(R.layout.create_note_fragment, null);
 
         ButterKnife.bind(this, view);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
-        dialog = new AddTagDialogFragment();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+
         presenter = new CreateNotePresenter(this, activityCallback);
         note = getNoteVO();
-        if(note != null)
+        if (note != null) {
             setViewData(note);
+            dialog = AddTagDialogFragment.newInstance(note);
+        } else {
+            dialog = AddTagDialogFragment.newInstance(null);
+        }
 
         return view;
     }
 
-    private Note getNoteVO(){
+    private Note getNoteVO() {
         Bundle bundle = getArguments();
-        return bundle != null? (Note) bundle.getSerializable(BUNDLE_NOTE_KEY):null;
+        return bundle != null ? (Note) bundle.getSerializable(BUNDLE_NOTE_KEY) : null;
     }
 
     @Override
@@ -109,14 +112,12 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
             case R.id.action_save:
                 getActivity().onBackPressed();
                 return true;
-            case R.id.action_settings:
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void setViewData(Note note){
+    private void setViewData(Note note) {
         this.mainEditText.setText(note.getText());
         this.titleEditText.setText(note.getTitle());
     }

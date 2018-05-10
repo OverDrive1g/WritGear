@@ -11,10 +11,9 @@ import com.tnninc.writgear.view.fragment.CreateNoteView;
 
 import java.util.Objects;
 
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
+
+import static com.tnninc.writgear.utils.Converter.getTagDTOsFromTags;
 
 public class CreateNotePresenter extends BasePresenter {
 
@@ -39,7 +38,8 @@ public class CreateNotePresenter extends BasePresenter {
         if (note != null) {
             disposable =
                     model.putNote(new NoteDTO(note.getId(), view.getTitle(), view.getText(),
-                            String.valueOf(System.currentTimeMillis()), null, getRandomColor()))
+                            note.getTime(), null,
+                            note.getColor(), getTagDTOsFromTags(note.getTags())))
                             .subscribe(() -> Log.d("CreateNotePresenter", "push note"),
                                     throwable ->  Log.d("CreateNotePresenter", throwable.getMessage()));
         }

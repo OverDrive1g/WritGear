@@ -6,7 +6,7 @@ import com.pushtorefresh.storio3.sqlite.queries.Query;
 
 public class TagsTable {
     @NonNull
-    public static final String TABLE = "notes";
+    public static final String TABLE = "tags";
 
     @NonNull
     public static final String COLUMN_ID = "id";

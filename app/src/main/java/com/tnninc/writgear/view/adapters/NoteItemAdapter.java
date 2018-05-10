@@ -40,7 +40,13 @@ public class NoteItemAdapter extends RecyclerView.Adapter<NoteItemAdapter.ViewHo
         holder.layout.setOnClickListener(view -> presenter.clickNote(note));
 
         holder.icon.setColorFilter(note.getColor());
-        String iconText = note.getTitle().length() != 0 ? note.getTitle() : note.getText().length() != 0 ? note.getText() : "";
+        String iconText = "";
+        if(note.getTitle() != null){
+            iconText = note.getTitle();
+        } else {
+            if (note.getText() != null)
+                iconText = note.getText();
+        }
         holder.iconText.setText(iconText.toUpperCase());
 
         long currentTime = System.currentTimeMillis();
