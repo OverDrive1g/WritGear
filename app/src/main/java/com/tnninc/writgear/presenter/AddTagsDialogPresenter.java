@@ -5,12 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.tnninc.writgear.di.App;
-import com.tnninc.writgear.model.database.entities.NoteDTO;
 import com.tnninc.writgear.model.database.entities.TagDTO;
 import com.tnninc.writgear.presenter.mappers.TagListMapper;
 import com.tnninc.writgear.presenter.vo.Note;
 import com.tnninc.writgear.presenter.vo.Tag;
-import com.tnninc.writgear.view.ActivityCallback;
 import com.tnninc.writgear.view.fragment.AddTagDialogView;
 
 import java.util.ArrayList;
@@ -18,7 +16,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 
 public class AddTagsDialogPresenter extends BasePresenter {
@@ -48,15 +45,16 @@ public class AddTagsDialogPresenter extends BasePresenter {
                 .map(tagListMapper)
                 .subscribe(
                         tags -> view.showData(tags),
-                        throwable -> Log.d("AddTagsDialogPresenter", throwable.getMessage()));
+                        throwable -> Log.e("AddTagsDialogPresenter", throwable.getMessage()));
 
         addDisposable(disposable);
     }
 
     public void addTag(String tagName) {
-        model.putTag(new TagDTO(null, tagName))
-                .subscribe(putResult -> view.tagListUpdated(),
+        Disposable disposable = model.putTag(new TagDTO(null, tagName))
+                .subscribe(() -> view.tagListUpdated(),
                            throwable -> view.showError(throwable.getMessage()));
+        this.addDisposable(disposable);
     }
 
     public void setTagsForNote(List<Tag> tags) {

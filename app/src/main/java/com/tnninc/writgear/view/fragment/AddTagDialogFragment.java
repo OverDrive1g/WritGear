@@ -56,6 +56,12 @@ public class AddTagDialogFragment extends DialogFragment implements AddTagDialog
         }
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        presenter.onStop();
+    }
+
     public static AddTagDialogFragment newInstance(@Nullable Note note) {
         AddTagDialogFragment fragment = new AddTagDialogFragment();
 

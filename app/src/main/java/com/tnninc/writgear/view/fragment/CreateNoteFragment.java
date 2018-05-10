@@ -38,7 +38,7 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
 
     Note note;
 
-    AddTagDialogFragment dialog;
+    AddTagDialogFragment dialogFragment;
 
     public CreateNoteFragment() {
         setHasOptionsMenu(true);
@@ -80,9 +80,10 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
         note = getNoteVO();
         if (note != null) {
             setViewData(note);
-            dialog = AddTagDialogFragment.newInstance(note);
+            dialogFragment = AddTagDialogFragment.newInstance(note);
         } else {
-            dialog = AddTagDialogFragment.newInstance(null);
+            this.note = new Note();
+            dialogFragment = AddTagDialogFragment.newInstance(note);
         }
 
         return view;
@@ -107,7 +108,7 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
                 getActivity().onBackPressed();
                 return true;
             case R.id.add_tag:
-                dialog.show(getFragmentManager(), "dialog");
+                dialogFragment.show(getFragmentManager(), "dialogFragment");
                 return true;
             case R.id.action_save:
                 getActivity().onBackPressed();
@@ -124,7 +125,9 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
 
     @Override
     public void onStop() {
-        presenter.createNote();
+        note.setText(getText());
+        note.setTitle(getTitle());
+        presenter.createNote(note);
         super.onStop();
     }
 
@@ -151,10 +154,5 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
     @Override
     public String getText() {
         return mainEditText.getText().toString();
-    }
-
-    @Override
-    public Note getNote() {
-        return this.note;
     }
 }

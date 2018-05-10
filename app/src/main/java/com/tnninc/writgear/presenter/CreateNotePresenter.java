@@ -9,8 +9,6 @@ import com.tnninc.writgear.presenter.vo.Note;
 import com.tnninc.writgear.view.ActivityCallback;
 import com.tnninc.writgear.view.fragment.CreateNoteView;
 
-import java.util.Objects;
-
 import io.reactivex.disposables.Disposable;
 
 import static com.tnninc.writgear.utils.Converter.getTagDTOsFromTags;
@@ -32,30 +30,22 @@ public class CreateNotePresenter extends BasePresenter {
         this.view = view;
     }
 
-    public void createNote() {
-        Note note = view.getNote();
-        Disposable disposable;
-        if (note != null) {
-            disposable =
-                    model.putNote(new NoteDTO(note.getId(), view.getTitle(), view.getText(),
-                            note.getTime(), null,
-                            note.getColor(), getTagDTOsFromTags(note.getTags())))
-                            .subscribe(() -> Log.d("CreateNotePresenter", "push note"),
-                                    throwable ->  Log.d("CreateNotePresenter", throwable.getMessage()));
+    public void createNote(Note note) {
+        if(note.getText().equals("") && note.getTitle().equals(""))
+            return;
+
+        if(note.getId() == null){
+            note.setColor(getRandomColor());
+            note.setTime(String.valueOf(System.currentTimeMillis()));
         }
-        else{
-            if (!(!Objects.equals(view.getText(), "") || !Objects.equals(view.getTitle(), "")))
-                return;
 
-            NoteDTO newNote = new NoteDTO(null, view.getTitle(), view.getText(),
-                    String.valueOf(System.currentTimeMillis()), null, getRandomColor());
-
-
-            model.putNote(newNote)
-                    .subscribe(
-                            () -> Log.d("CreateNotePresenter", "run: "),
-                            throwable -> Log.d("CreateNotePresenter", "accept: "+throwable.getMessage()));
-        }
+        Disposable disposable =
+                model.putNote(new NoteDTO(note.getId(), view.getTitle(), view.getText(),
+                        note.getTime(), null,
+                        note.getColor(), getTagDTOsFromTags(note.getTags())))
+                        .subscribe(() -> Log.d("CreateNotePresenter", "push note"),
+                                throwable ->  Log.d("CreateNotePresenter", throwable.getMessage()));
+        this.addDisposable(disposable);
     }
 
     private int getRandomColor() {

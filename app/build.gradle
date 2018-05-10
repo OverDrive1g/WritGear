@@ -13,8 +13,8 @@ android {
         applicationId "com.tnn_inc.writgear"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 9
-        versionName "1.0.7 hotfix v2.0"
+        versionCode 10
+        versionName "1.0.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -61,5 +61,4 @@ dependencies {
     implementation 'com.google.dagger:dagger-android-support:2.15'
 
     implementation 'com.google.android.gms:play-services-base:15.0.1'
-//    implementation 'com.google.android.gms:play-services:15.0.1'
 }

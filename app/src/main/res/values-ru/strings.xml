@@ -15,4 +15,5 @@
     <string name="cancel">Отмена</string>
     <string name="note_created">Заметка создана!</string>
     <string name="note_not_created">Заметка не создалась!</string>
+    <string name="coming_soon">Скоро!</string>
 </resources>

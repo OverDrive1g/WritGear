@@ -16,6 +16,7 @@ import android.view.Menu;
 import com.squareup.leakcanary.LeakCanary;
 import com.tnninc.writgear.R;
 import com.tnninc.writgear.presenter.vo.Note;
+import com.tnninc.writgear.view.fragment.ComingSoonFragment;
 import com.tnninc.writgear.view.fragment.CreateNoteFragment;
 import com.tnninc.writgear.view.fragment.NoteListFragment;
 import com.tnninc.writgear.view.fragment.SettingsFragment;
@@ -56,12 +57,16 @@ public class WritGearApplication extends AppCompatActivity implements ActivityCa
 
             switch (item.getItemId()){
                 case R.id.nav_tag:
+                    replaceFragment(new ComingSoonFragment(), true);
                     break;
                 case R.id.nav_note:
                     replaceFragment(new NoteListFragment(), true);
+                    break;
                 case R.id.nav_trash:
+                    replaceFragment(new ComingSoonFragment(), true);
                     break;
                 case R.id.nav_project:
+                    replaceFragment(new ComingSoonFragment(), true);
                     break;
                 case R.id.nav_settings:
                     replaceFragment(new SettingsFragment(), true);
@@ -98,6 +103,7 @@ public class WritGearApplication extends AppCompatActivity implements ActivityCa
 
     private void replaceFragment(Fragment fragment, boolean addBackStack) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.animator.enter_from_left, R.animator.exit_to_right, 0,0);
         transaction.replace(R.id.container, fragment, TAG);
         if (addBackStack) transaction.addToBackStack(null);
         transaction.commit();

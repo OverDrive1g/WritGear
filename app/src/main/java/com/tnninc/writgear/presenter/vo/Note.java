@@ -1,6 +1,7 @@
 package com.tnninc.writgear.presenter.vo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Note implements Serializable {
@@ -10,6 +11,10 @@ public class Note implements Serializable {
     private String time;
     private Integer color;
     private List<Tag> tags;
+
+    public Note() {
+        this.tags = new ArrayList<>();
+    }
 
     public Note(Integer id, String title, String text, String time, Integer color, List<Tag> tags) {
         this.id = id;
