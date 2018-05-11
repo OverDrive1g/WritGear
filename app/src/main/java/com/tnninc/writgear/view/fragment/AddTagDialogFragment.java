@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -79,13 +80,21 @@ public class AddTagDialogFragment extends DialogFragment implements AddTagDialog
         AlertDialog.Builder b=  new  AlertDialog.Builder(getActivity())
                 .setTitle(R.string.choice_tag_for_note)
                 .setPositiveButton(R.string.ok,
-                        (dialog, whichButton) -> {
-                            presenter.setTagsForNote(new ArrayList<>(adapter.getSelectedTags()));
-                            dialog.dismiss();
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                presenter.setTagsForNote(new ArrayList<>(adapter.getSelectedTags()));
+                                dialogInterface.dismiss();
+                            }
                         }
                 )
                 .setNegativeButton(R.string.cancel,
-                        (dialog, whichButton) -> dialog.dismiss()
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }
                 );
 
         LayoutInflater inflater = getActivity().getLayoutInflater();

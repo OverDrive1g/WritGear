@@ -9,9 +9,13 @@ import com.tnninc.writgear.presenter.vo.Note;
 import com.tnninc.writgear.view.ActivityCallback;
 import com.tnninc.writgear.view.fragment.NoteListView;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 
 public class NoteListPresenter extends BasePresenter {
 
@@ -23,7 +27,8 @@ public class NoteListPresenter extends BasePresenter {
     private ActivityCallback activityCallback;
 
     @Inject
-    public NoteListPresenter(){}
+    public NoteListPresenter() {
+    }
 
     public NoteListPresenter(NoteListView view, ActivityCallback activityCallback) {
         super();
@@ -36,31 +41,49 @@ public class NoteListPresenter extends BasePresenter {
         loadNotes();
     }
 
-    public void loadNotes(){
+    public void loadNotes() {
         view.refreshLayoutOn();
         Disposable disposable = model.getNoteList()
                 .map(noteListMapper)
                 .subscribe(
-                        notes -> {
-                            view.showData(notes);
-                            view.refreshLayoutOff();
-                            },
-                        throwable -> {
-                            Log.d("NoteListPresenter", throwable.getMessage());
-                            view.refreshLayoutOff();
+                        new Consumer<List<Note>>() {
+                            @Override
+                            public void accept(List<Note> notes) {
+                                view.showData(notes);
+                                view.refreshLayoutOff();
+                            }
+                        },
+                        new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) {
+                                Log.d("NoteListPresenter", throwable.getMessage());
+                                view.refreshLayoutOff();
+                            }
                         });
 
         addDisposable(disposable);
     }
 
-    public void deleteNoteById(int id){
-        model.deleteNoteById(id).subscribe(
-                () -> Log.d("NoteListPresenter", "Запись " + id +" удалена!"),
-                throwable -> view.showError(throwable.getMessage()));
+    public void deleteNoteById(int id) {
+        Disposable disposable =
+                model.deleteNoteById(id).subscribe(
+                        new Action() {
+                            @Override
+                            public void run() {
+                                Log.d("NoteListPresenter", "Запись удалена!");
+                            }
+                        },
+                        new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) {
+                                view.showError(throwable.getMessage());
+                            }
+                        });
+        addDisposable(disposable);
 
     }
 
-    public void clickNote(Note note){
+    public void clickNote(Note note) {
         activityCallback.startNoteCreateFragment(note);
     }
 

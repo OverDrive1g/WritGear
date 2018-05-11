@@ -1,7 +1,6 @@
 package com.tnninc.writgear.presenter.mappers;
 
 import com.tnninc.writgear.model.database.entities.TagDTO;
-import com.tnninc.writgear.presenter.vo.Note;
 import com.tnninc.writgear.presenter.vo.Tag;
 
 import java.util.List;
@@ -24,7 +23,12 @@ public class TagListMapper implements Function<List<TagDTO>, List<Tag>> {
         }
 
         List<Tag> tags = Flowable.fromIterable(tagDTOS)
-                .map(tagDTO -> new Tag(tagDTO.getId(), tagDTO.getName()))
+                .map(new Function<TagDTO, Tag>() {
+                    @Override
+                    public Tag apply(TagDTO tagDTO) throws Exception {
+                        return new Tag(tagDTO.getId(), tagDTO.getName());
+                    }
+                })
                 .toList()
                 .toFlowable()
                 .blockingFirst();

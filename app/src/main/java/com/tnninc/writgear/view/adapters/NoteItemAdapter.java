@@ -37,7 +37,12 @@ public class NoteItemAdapter extends RecyclerView.Adapter<NoteItemAdapter.ViewHo
         final Note note = list.get(position);
         holder.text.setText(note.getTitle());
 
-        holder.layout.setOnClickListener(view -> presenter.clickNote(note));
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.clickNote(note);
+            }
+        });
 
         holder.icon.setColorFilter(note.getColor());
         String iconText = "";

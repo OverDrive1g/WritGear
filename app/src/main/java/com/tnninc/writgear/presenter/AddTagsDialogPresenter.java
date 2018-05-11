@@ -17,6 +17,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 
 public class AddTagsDialogPresenter extends BasePresenter {
 
@@ -27,7 +29,8 @@ public class AddTagsDialogPresenter extends BasePresenter {
     protected TagListMapper tagListMapper;
 
     @Inject
-    public AddTagsDialogPresenter(){}
+    public AddTagsDialogPresenter() {
+    }
 
     public AddTagsDialogPresenter(AddTagDialogView view, Note note) {
         this.view = view;
@@ -40,20 +43,41 @@ public class AddTagsDialogPresenter extends BasePresenter {
         loadTags();
     }
 
-    public void loadTags(){
+    public void loadTags() {
         Disposable disposable = model.getTagList()
                 .map(tagListMapper)
                 .subscribe(
-                        tags -> view.showData(tags),
-                        throwable -> Log.e("AddTagsDialogPresenter", throwable.getMessage()));
+                        new Consumer<List<Tag>>() {
+                            @Override
+                            public void accept(List<Tag> tags) {
+                                view.showData(tags);
+                            }
+                        },
+                        new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) {
+                                Log.e("AddTagsDialogPresenter", throwable.getMessage());
+                            }
+                        });
 
         addDisposable(disposable);
     }
 
     public void addTag(String tagName) {
         Disposable disposable = model.putTag(new TagDTO(null, tagName))
-                .subscribe(() -> view.tagListUpdated(),
-                           throwable -> view.showError(throwable.getMessage()));
+                .subscribe(
+                        new Action() {
+                            @Override
+                            public void run() {
+                                view.tagListUpdated();
+                            }
+                        },
+                        new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) {
+                                view.showError(throwable.getMessage());
+                            }
+                        });
         this.addDisposable(disposable);
     }
 

@@ -26,8 +26,13 @@ public class NoteListMapper implements Function<List<NoteDTO>, List<Note>>{
         }
 
         List<Note> notes = Flowable.fromIterable(noteDTOs)
-                .map(noteDTO -> new Note(noteDTO.getId(), noteDTO.getTitle(), noteDTO.getText(),
-                        noteDTO.getCreateDate(), noteDTO.getColor(), getTagsFromTagDTOs(noteDTO.getTags())))
+                .map(new Function<NoteDTO, Note>() {
+                    @Override
+                    public Note apply(NoteDTO noteDTO) throws Exception {
+                        return new Note(noteDTO.getId(), noteDTO.getTitle(), noteDTO.getText(),
+                                noteDTO.getCreateDate(), noteDTO.getColor(), getTagsFromTagDTOs(noteDTO.getTags()));
+                    }
+                })
                 .toList()
                 .toFlowable()
                 .blockingFirst();

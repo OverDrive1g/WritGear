@@ -10,6 +10,8 @@ import com.tnninc.writgear.view.ActivityCallback;
 import com.tnninc.writgear.view.fragment.CreateNoteView;
 
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 
 import static com.tnninc.writgear.utils.Converter.getTagDTOsFromTags;
 
@@ -17,7 +19,6 @@ public class CreateNotePresenter extends BasePresenter {
 
     private CreateNoteView view;
     private TypedArray colors;
-    private ActivityCallback activityCallback;
 
     public CreateNotePresenter(CreateNoteView view, ActivityCallback activityCallback) {
         int arrayId = activityCallback.getActivity().getResources().getIdentifier("mdcolor_400", "array",
@@ -43,8 +44,19 @@ public class CreateNotePresenter extends BasePresenter {
                 model.putNote(new NoteDTO(note.getId(), view.getTitle(), view.getText(),
                         note.getTime(), null,
                         note.getColor(), getTagDTOsFromTags(note.getTags())))
-                        .subscribe(() -> Log.d("CreateNotePresenter", "push note"),
-                                throwable ->  Log.d("CreateNotePresenter", throwable.getMessage()));
+                        .subscribe(
+                                new Action() {
+                                    @Override
+                                    public void run() {
+                                        Log.d("CreateNotePresenter", "push note");
+                                    }
+                                },
+                                new Consumer<Throwable>() {
+                                    @Override
+                                    public void accept(Throwable throwable) {
+                                        Log.d("CreateNotePresenter", throwable.getMessage());
+                                    }
+                                });
         this.addDisposable(disposable);
     }
 

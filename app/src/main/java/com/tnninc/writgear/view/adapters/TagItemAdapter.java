@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tnninc.writgear.R;
-import com.tnninc.writgear.model.database.entities.TagDTO;
 import com.tnninc.writgear.presenter.vo.Tag;
 
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ public class TagItemAdapter extends BaseAdapter {
         this.context = context;
         this.tags = tags;
         this.selectedList = new HashSet<>();
-        if(selectedTags == null){
+        if (selectedTags == null) {
             this.selectedTags = new ArrayList<>();
         } else {
             this.selectedTags = selectedTags;
@@ -58,7 +57,7 @@ public class TagItemAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder holder = null;
 
-        if (view == null){
+        if (view == null) {
             view = layoutInflater.inflate(R.layout.tag_list_item, viewGroup, false);
 
             holder = new ViewHolder();
@@ -69,35 +68,41 @@ public class TagItemAdapter extends BaseAdapter {
 
             view.setTag(holder);
         } else
-            holder = (ViewHolder)view.getTag();
+            holder = (ViewHolder) view.getTag();
 
-        Tag tag = tags.get(i);
+        final Tag tag = tags.get(i);
 
         holder.text.setText(tag.getName());
         boolean isContains = selectedTags.contains(tag);
         holder.cb.setChecked(isContains);
 
-        ViewHolder finalHolder = holder;
-        holder.layout.setOnClickListener(view1 -> {
-            boolean flag = finalHolder.cb.isChecked();
-            finalHolder.cb.setChecked(!flag);
-            selectedList.add(tag);
-        });
-        holder.cb.setOnClickListener(view1 -> {
-            if(selectedList.contains(tag)){
-                selectedList.remove(tag);
-            } else
+        final ViewHolder finalHolder = holder;
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean flag = finalHolder.cb.isChecked();
+                finalHolder.cb.setChecked(!flag);
                 selectedList.add(tag);
+            }
+        });
+        holder.cb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (selectedList.contains(tag)) {
+                    selectedList.remove(tag);
+                } else
+                    selectedList.add(tag);
+            }
         });
 
         return view;
     }
 
-    public Set<Tag> getSelectedTags(){
+    public Set<Tag> getSelectedTags() {
         return selectedList;
     }
 
-    class ViewHolder{
+    class ViewHolder {
         RelativeLayout layout;
         TextView text;
         CheckBox cb;

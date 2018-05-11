@@ -16,6 +16,10 @@ import com.tnninc.writgear.model.database.entities.NoteDTO;
 
 import javax.inject.Inject;
 
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+
 public class VoiceHook extends Activity {
 
     @Inject
@@ -43,24 +47,31 @@ public class VoiceHook extends Activity {
         if (intent == null) {
             finish();
         } else {
-            if (intent.getAction() == "com.google.android.gms.actions.CREATE_NOTE"){
+            if (intent.getAction() == "com.google.android.gms.actions.CREATE_NOTE") {
+                String text = intent.getStringExtra("android.intent.extra.TEXT");
 
+                NoteDTO note = new NoteDTO(null, null, text, String.valueOf(System.currentTimeMillis()), null, getRandomColor());
+
+                Disposable disposable =
+                        model.putNote(note)
+                                .subscribe(
+                                        new Action() {
+                                            @Override
+                                            public void run() {
+                                                showMessage(R.string.note_created);
+                                                finish();
+                                            }
+                                        },
+                                        new Consumer<Throwable>() {
+                                            @Override
+                                            public void accept(Throwable throwable) {
+                                                showMessage(R.string.note_created);
+                                                Log.e("VoiceHook", "onCreate: " + throwable.getMessage(), throwable);
+                                                finish();
+                                            }
+                                        });
             }
-            String text = intent.getStringExtra("android.intent.extra.TEXT");
 
-            NoteDTO note = new NoteDTO(null, null, text, String.valueOf(System.currentTimeMillis()), null, getRandomColor());
-
-            model.putNote(note)
-                    .subscribe(
-                            () -> {
-                                showMessage(R.string.note_created);
-                                finish();
-                            },
-                            throwable -> {
-                                showMessage(R.string.note_created);
-                                Log.e("VoiceHook", "onCreate: " + throwable.getMessage(), throwable);
-                                finish();
-                            });
         }
     }
 

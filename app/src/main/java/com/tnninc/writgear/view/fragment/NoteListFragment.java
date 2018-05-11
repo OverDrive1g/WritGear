@@ -2,7 +2,6 @@ package com.tnninc.writgear.view.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -28,8 +27,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 
 import static android.support.v7.widget.helper.ItemTouchHelper.LEFT;
 
@@ -66,7 +63,7 @@ public class NoteListFragment extends BaseFragment implements NoteListView {
         View view = inflater.inflate(R.layout.fragment_main, null);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -74,7 +71,12 @@ public class NoteListFragment extends BaseFragment implements NoteListView {
         LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_animation_fall_down);
         recyclerView.setLayoutAnimation(animation);
 
-        refreshLayout.setOnRefreshListener(() -> presenter.loadNotes());
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.loadNotes();
+            }
+        });
 
         ItemTouchHelper itemTouchhelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
             @Override
@@ -96,7 +98,12 @@ public class NoteListFragment extends BaseFragment implements NoteListView {
         });
         itemTouchhelper.attachToRecyclerView(recyclerView);
 
-        fab.setOnClickListener(view1 -> activityCallback.startCreateNote());
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activityCallback.startCreateNote();
+            }
+        });
 
         presenter = new NoteListPresenter(this, activityCallback);
         presenter.onCreate(savedInstanceState);
