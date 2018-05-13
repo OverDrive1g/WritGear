@@ -19,14 +19,12 @@ import java.util.Set;
 
 public class TagItemAdapter extends BaseAdapter {
 
-    private Context context;
     private LayoutInflater layoutInflater;
     private List<Tag> tags;
     private List<Tag> selectedTags;
     private Set<Tag> selectedList;
 
     public TagItemAdapter(Context context, List<Tag> tags, List<Tag> selectedTags) {
-        this.context = context;
         this.tags = tags;
         this.selectedList = new HashSet<>();
         if (selectedTags == null) {

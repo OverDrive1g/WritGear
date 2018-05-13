@@ -77,7 +77,7 @@ public class AddTagDialogFragment extends DialogFragment implements AddTagDialog
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder b=  new  AlertDialog.Builder(getActivity())
+        AlertDialog.Builder b = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.choice_tag_for_note)
                 .setPositiveButton(R.string.ok,
                         new DialogInterface.OnClickListener() {
@@ -116,7 +116,7 @@ public class AddTagDialogFragment extends DialogFragment implements AddTagDialog
                 if (start < s.length())
                     if (s.charAt(start) == ',') {
                         String resultTagName = s.subSequence(0, start).toString();
-                        if(Objects.equals(resultTagName, ""))
+                        if (Objects.equals(resultTagName, ""))
                             return;
                         presenter.addTag(resultTagName);
                         editText.setText("");

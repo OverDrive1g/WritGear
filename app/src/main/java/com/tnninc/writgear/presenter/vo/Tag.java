@@ -8,15 +8,18 @@ import java.util.Objects;
 public class Tag implements Serializable {
     private Long id;
     private String name;
+    private Integer countNotes;
 
-    public Tag(Long id, String name) {
+    public Tag(Long id, String name, Integer countNotes) {
         this.id = id;
         this.name = name;
+        this.countNotes = countNotes;
     }
 
-    public Tag(TagDTO tag){
+    public Tag(TagDTO tag) {
         this.id = tag.getId();
         this.name = tag.getName();
+        this.countNotes = tag.getNotes().size();
     }
 
     public Long getId() {
@@ -33,6 +36,14 @@ public class Tag implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getCountNotes() {
+        return countNotes;
+    }
+
+    public void setCountNotes(Integer countNotes) {
+        this.countNotes = countNotes;
     }
 
     @Override

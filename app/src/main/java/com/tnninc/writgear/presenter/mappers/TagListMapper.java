@@ -26,7 +26,7 @@ public class TagListMapper implements Function<List<TagDTO>, List<Tag>> {
                 .map(new Function<TagDTO, Tag>() {
                     @Override
                     public Tag apply(TagDTO tagDTO) throws Exception {
-                        return new Tag(tagDTO.getId(), tagDTO.getName());
+                        return new Tag(tagDTO);
                     }
                 })
                 .toList()

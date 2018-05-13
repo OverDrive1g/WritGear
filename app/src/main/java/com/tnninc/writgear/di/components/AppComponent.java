@@ -6,6 +6,7 @@ import com.tnninc.writgear.model.ModelImpl;
 import com.tnninc.writgear.presenter.AddTagsDialogPresenter;
 import com.tnninc.writgear.presenter.BasePresenter;
 import com.tnninc.writgear.presenter.NoteListPresenter;
+import com.tnninc.writgear.presenter.TagListPresenter;
 import com.tnninc.writgear.view.VoiceHook;
 
 import javax.inject.Singleton;
@@ -20,4 +21,5 @@ public interface AppComponent {
     void inject(NoteListPresenter presenter);
     void inject(AddTagsDialogPresenter presenter);
     void inject(VoiceHook hook);
+    void inject(TagListPresenter presenter);
 }

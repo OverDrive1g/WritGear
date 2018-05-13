@@ -61,7 +61,7 @@ public class WritGearApplication extends AppCompatActivity implements ActivityCa
 
                 switch (item.getItemId()) {
                     case R.id.nav_tag:
-                        replaceFragment(new ComingSoonFragment(), true);
+//                        replaceFragment(new TagListFragment(), true);
                         break;
                     case R.id.nav_note:
                         replaceFragment(new NoteListFragment(), true);

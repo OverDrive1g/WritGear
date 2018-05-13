@@ -20,7 +20,7 @@ public class NoteListMapper implements Function<List<NoteDTO>, List<Note>>{
     }
 
     @Override
-    public List<Note> apply(List<NoteDTO> noteDTOs) throws Exception {
+    public List<Note> apply(List<NoteDTO> noteDTOs) {
         if (noteDTOs == null) {
             return null;
         }
@@ -28,7 +28,7 @@ public class NoteListMapper implements Function<List<NoteDTO>, List<Note>>{
         List<Note> notes = Flowable.fromIterable(noteDTOs)
                 .map(new Function<NoteDTO, Note>() {
                     @Override
-                    public Note apply(NoteDTO noteDTO) throws Exception {
+                    public Note apply(NoteDTO noteDTO) {
                         return new Note(noteDTO.getId(), noteDTO.getTitle(), noteDTO.getText(),
                                 noteDTO.getCreateDate(), noteDTO.getColor(), getTagsFromTagDTOs(noteDTO.getTags()));
                     }

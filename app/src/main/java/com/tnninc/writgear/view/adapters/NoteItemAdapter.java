@@ -12,6 +12,7 @@ import com.tnninc.writgear.R;
 import com.tnninc.writgear.presenter.NoteListPresenter;
 import com.tnninc.writgear.presenter.vo.Note;
 import com.tnninc.writgear.utils.Converter;
+import com.tnninc.writgear.utils.RegExHelper;
 
 import java.util.List;
 
@@ -35,7 +36,6 @@ public class NoteItemAdapter extends RecyclerView.Adapter<NoteItemAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Note note = list.get(position);
-        holder.text.setText(note.getTitle());
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,13 +46,15 @@ public class NoteItemAdapter extends RecyclerView.Adapter<NoteItemAdapter.ViewHo
 
         holder.icon.setColorFilter(note.getColor());
         String iconText = "";
-        if(note.getTitle() != null){
+
+        if (!note.getTitle().equals("")) {
+            holder.text.setText(note.getTitle());
             iconText = note.getTitle();
         } else {
-            if (note.getText() != null)
-                iconText = note.getText();
+            holder.text.setText(note.getText().split(" ")[0]);
+            iconText = note.getText();
         }
-        holder.iconText.setText(iconText.toUpperCase());
+        holder.iconText.setText(RegExHelper.getFirstSimbolFromString(iconText.toUpperCase()));
 
         long currentTime = System.currentTimeMillis();
         long deltaTime = currentTime - Long.parseLong(note.getTime());
