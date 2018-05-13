@@ -56,7 +56,8 @@ public class AddTagsDialogPresenter extends BasePresenter {
                         new Consumer<Throwable>() {
                             @Override
                             public void accept(Throwable throwable) {
-                                Log.e("AddTagsDialogPresenter", throwable.getMessage());
+                                view.showError(throwable.getMessage());
+                                Log.e("AddTagsDialogPresenter", "loadTags"+throwable.getMessage(), throwable);
                             }
                         });
 
@@ -76,6 +77,7 @@ public class AddTagsDialogPresenter extends BasePresenter {
                             @Override
                             public void accept(Throwable throwable) {
                                 view.showError(throwable.getMessage());
+                                Log.e("AddTagsDialogPresenter", "addTag" + throwable.getMessage(), throwable);
                             }
                         });
         this.addDisposable(disposable);

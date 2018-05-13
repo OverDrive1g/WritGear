@@ -22,6 +22,7 @@ import com.tnninc.writgear.view.fragment.ComingSoonFragment;
 import com.tnninc.writgear.view.fragment.CreateNoteFragment;
 import com.tnninc.writgear.view.fragment.NoteListFragment;
 import com.tnninc.writgear.view.fragment.SettingsFragment;
+import com.tnninc.writgear.view.fragment.TagListFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,7 +62,7 @@ public class WritGearApplication extends AppCompatActivity implements ActivityCa
 
                 switch (item.getItemId()) {
                     case R.id.nav_tag:
-//                        replaceFragment(new TagListFragment(), true);
+                        replaceFragment(new TagListFragment(), true);
                         break;
                     case R.id.nav_note:
                         replaceFragment(new NoteListFragment(), true);

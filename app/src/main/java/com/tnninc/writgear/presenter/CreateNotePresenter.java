@@ -4,13 +4,13 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.Log;
 
+import com.pushtorefresh.storio3.sqlite.operations.put.PutResult;
 import com.tnninc.writgear.model.database.entities.NoteDTO;
 import com.tnninc.writgear.presenter.vo.Note;
 import com.tnninc.writgear.view.ActivityCallback;
 import com.tnninc.writgear.view.fragment.CreateNoteView;
 
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
 import static com.tnninc.writgear.utils.Converter.getTagDTOsFromTags;
@@ -45,19 +45,18 @@ public class CreateNotePresenter extends BasePresenter {
                         note.getTime(), null,
                         note.getColor(), getTagDTOsFromTags(note.getTags())))
                         .subscribe(
-                                new Action() {
+                                new Consumer<PutResult>() {
                                     @Override
-                                    public void run() {
-                                        Log.d("CreateNotePresenter", "push note");
+                                    public void accept(PutResult putResult) {
                                     }
                                 },
                                 new Consumer<Throwable>() {
                                     @Override
                                     public void accept(Throwable throwable) {
-                                        Log.d("CreateNotePresenter", throwable.getMessage());
+                                        Log.e("CreateNotePresenter", "createNote" + throwable.getMessage(), throwable);
+                                        view.showError(throwable.getMessage());
                                     }
                                 });
-        this.addDisposable(disposable);
     }
 
     private int getRandomColor() {

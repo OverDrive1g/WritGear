@@ -105,12 +105,18 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                note.setText(getText());
+                note.setTitle(getTitle());
+                presenter.createNote(note);
                 getActivity().onBackPressed();
                 return true;
             case R.id.add_tag:
                 dialogFragment.show(getFragmentManager(), "dialogFragment");
                 return true;
             case R.id.action_save:
+                note.setText(getText());
+                note.setTitle(getTitle());
+                presenter.createNote(note);
                 getActivity().onBackPressed();
                 return true;
             default:
@@ -125,9 +131,6 @@ public class CreateNoteFragment extends BaseFragment implements CreateNoteView {
 
     @Override
     public void onStop() {
-        note.setText(getText());
-        note.setTitle(getTitle());
-        presenter.createNote(note);
         super.onStop();
     }
 

@@ -56,7 +56,7 @@ public class NoteListPresenter extends BasePresenter {
                         new Consumer<Throwable>() {
                             @Override
                             public void accept(Throwable throwable) {
-                                Log.d("NoteListPresenter", throwable.getMessage());
+                                Log.e("NoteListPresenter", "loadNotes: "+throwable.getMessage(), throwable);
                                 view.refreshLayoutOff();
                             }
                         });
@@ -70,12 +70,12 @@ public class NoteListPresenter extends BasePresenter {
                         new Action() {
                             @Override
                             public void run() {
-                                Log.d("NoteListPresenter", "Запись удалена!");
                             }
                         },
                         new Consumer<Throwable>() {
                             @Override
                             public void accept(Throwable throwable) {
+                                Log.e("NoteListPresenter", "deleteNoteById: "+throwable.getMessage(), throwable);
                                 view.showError(throwable.getMessage());
                             }
                         });

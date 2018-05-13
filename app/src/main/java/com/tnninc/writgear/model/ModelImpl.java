@@ -1,6 +1,7 @@
 package com.tnninc.writgear.model;
 
 import com.pushtorefresh.storio3.sqlite.StorIOSQLite;
+import com.pushtorefresh.storio3.sqlite.operations.put.PutResult;
 import com.pushtorefresh.storio3.sqlite.queries.DeleteQuery;
 import com.pushtorefresh.storio3.sqlite.queries.Query;
 import com.tnninc.writgear.di.App;
@@ -17,6 +18,7 @@ import javax.inject.Inject;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class ModelImpl implements Model {
@@ -54,12 +56,12 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public Completable putNote(NoteDTO note) {
+    public Single<PutResult> putNote(NoteDTO note) {
         return storIOSQLite
                 .put()
                 .object(note)
                 .prepare()
-                .asRxCompletable()
+                .asRxSingle()
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

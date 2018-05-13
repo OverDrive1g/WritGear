@@ -1,5 +1,8 @@
 package com.tnninc.writgear.presenter.vo;
 
+import com.tnninc.writgear.model.database.entities.NoteDTO;
+import com.tnninc.writgear.utils.Converter;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +17,16 @@ public class Note implements Serializable {
 
     public Note() {
         this.tags = new ArrayList<>();
+    }
+
+    public Note(NoteDTO noteDTO){
+        super();
+        this.id = noteDTO.getId();
+        this.title = noteDTO.getTitle();
+        this.text = noteDTO.getText();
+        this.time = noteDTO.getCreateDate();
+        this.color = noteDTO.getColor();
+        this.tags = Converter.getTagsFromTagDTOs(noteDTO.getTags());
     }
 
     public Note(Integer id, String title, String text, String time, Integer color, List<Tag> tags) {

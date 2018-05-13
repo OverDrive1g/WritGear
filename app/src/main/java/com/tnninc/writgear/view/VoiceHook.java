@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.pushtorefresh.storio3.sqlite.operations.put.PutResult;
 import com.tnninc.writgear.R;
 import com.tnninc.writgear.di.App;
 import com.tnninc.writgear.model.Model;
@@ -17,7 +18,6 @@ import com.tnninc.writgear.model.database.entities.NoteDTO;
 import javax.inject.Inject;
 
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
 public class VoiceHook extends Activity {
@@ -55,9 +55,9 @@ public class VoiceHook extends Activity {
                 Disposable disposable =
                         model.putNote(note)
                                 .subscribe(
-                                        new Action() {
+                                        new Consumer<PutResult>() {
                                             @Override
-                                            public void run() {
+                                            public void accept(PutResult putResult) {
                                                 showMessage(R.string.note_created);
                                                 finish();
                                             }
