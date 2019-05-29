@@ -47,13 +47,14 @@ public class NoteItemAdapter extends RecyclerView.Adapter<NoteItemAdapter.ViewHo
         holder.icon.setColorFilter(note.getColor());
         String iconText = "";
 
-        if (!note.getTitle().equals("")) {
-            holder.text.setText(note.getTitle());
-            iconText = note.getTitle();
-        } else {
-            holder.text.setText(note.getText().split(" ")[0]);
-            iconText = note.getText();
-        }
+        if (note.getTitle() != null)
+            if (!note.getTitle().equals("")) {
+                holder.text.setText(note.getTitle());
+                iconText = note.getTitle();
+            } else {
+                holder.text.setText(note.getText().split(" ")[0]);
+                iconText = note.getText();
+            }
         holder.iconText.setText(RegExHelper.getFirstSimbolFromString(iconText.toUpperCase()));
 
         long currentTime = System.currentTimeMillis();

@@ -109,7 +109,8 @@ public class WritGearApplication extends AppCompatActivity implements ActivityCa
 
     private void replaceFragment(Fragment fragment, boolean addBackStack) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.animator.enter_from_left, R.animator.exit_to_right, 0, 0);
+        transaction.setCustomAnimations(R.animator.enter_from_left, R.animator.exit_to_right,
+                R.animator.enter_from_right, R.animator.exit_to_right);
         transaction.replace(R.id.container, fragment, TAG);
         if (addBackStack) transaction.addToBackStack(null);
         transaction.commit();

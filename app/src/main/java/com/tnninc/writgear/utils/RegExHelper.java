@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 public class RegExHelper {
 
     public static String getFirstSimbolFromString(String string){
+        if (string.length() == 0)
+            return "";
 
         String regex = "^\\w";
         Pattern pattern = Pattern.compile(regex);

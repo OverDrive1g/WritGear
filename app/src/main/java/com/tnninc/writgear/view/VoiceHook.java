@@ -65,7 +65,7 @@ public class VoiceHook extends Activity {
                                         new Consumer<Throwable>() {
                                             @Override
                                             public void accept(Throwable throwable) {
-                                                showMessage(R.string.note_created);
+                                                showMessage(R.string.note_not_created);
                                                 Log.e("VoiceHook", "onCreate: " + throwable.getMessage(), throwable);
                                                 finish();
                                             }

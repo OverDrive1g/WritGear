@@ -5,10 +5,10 @@ android {
 
     defaultConfig {
         applicationId "com.tnn_inc.writgear"
-        minSdkVersion 19
+        minSdkVersion 26
         targetSdkVersion 26
-        versionCode 10
-        versionName "1.0.8"
+        versionCode 12
+        versionName "1.0.9 hotfix"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }

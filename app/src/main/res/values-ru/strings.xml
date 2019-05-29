@@ -16,5 +16,5 @@
     <string name="note_created">Заметка создана!</string>
     <string name="note_not_created">Заметка не создалась!</string>
     <string name="coming_soon">Скоро!</string>
-    <string name="find_a_tag">Find a tag</string>
+    <string name="find_a_tag">Найти тэг</string>
 </resources>
